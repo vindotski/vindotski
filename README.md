@@ -6,4 +6,4 @@
 - **Platforms:** `Hetzner` `Cloudflare` `Vercel` `Neon` `Supabase`
 - **Tools:** `Git` `GitHub` `VS Code` `Claude Code` `Figma`
 
-👉 [Let's connect on LinkedIn](https://www.linkedin.com/in/vindotski)
+👉 [Let's connect on LinkedIn](https://www.linkedin.com/in/vindotski) · 🌐 [www.vin.ski](https://www.vin.ski)
