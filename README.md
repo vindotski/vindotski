@@ -1,7 +1,8 @@
-# Ivan Vinski · Product Engineer
+# Ivan Vinski
 
-Frontend by trade, full-stack by habit, product by focus.
+> Frontend by trade, full-stack by habit, product by focus.
 
-Available for frontend and product work.
+**Now** — Independent, available for frontend and product work.\
+**Stack** — TypeScript, React, Next, Vue, Nuxt, TanStack Start, Node, PostgreSQL
 
-[ivan@vin.ski](mailto:ivan@vin.ski) · [vin.ski](https://www.vin.ski) · [LinkedIn](https://www.linkedin.com/in/vindotski)
+[Website](https://www.vin.ski) · [LinkedIn](https://www.linkedin.com/in/vindotski) · [GitHub](https://github.com/vindotski)
