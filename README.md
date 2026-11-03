@@ -1,7 +1,9 @@
-**Frontend by trade, full-stack by habit, product by focus.**
+> Frontend by trade, full-stack by habit, product by focus.
 
-Portfolio coming soon at [vin.ski](https://www.vin.ski).
+- **Frontend:** `TypeScript` `React` `Vue` `React Native`
+- **Backend:** `Node` `PostgreSQL` `MongoDB`
+- **DevOps:** `Docker` `Linux` `GitHub Actions`
+- **Platforms:** `Hetzner` `Cloudflare` `Vercel` `Neon` `Supabase`
+- **Tools:** `Git` `GitHub` `VS Code` `Claude Code` `Figma`
 
-`TypeScript` `React` `Vue` `Node` `PostgreSQL` `MongoDB`
-
-[Let's connect on LinkedIn](https://www.vin.ski).
+👉 [Let's connect on LinkedIn](https://www.linkedin.com/in/vindotski)
