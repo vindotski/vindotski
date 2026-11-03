@@ -2,8 +2,10 @@
 
 > Frontend by trade, full-stack by habit, product by focus.
 
-**Now** — Independent, available for frontend and product work.\
-**Stack** — TypeScript, React, Next, Vue, Nuxt, TanStack Start, Node, PostgreSQL
+**🟢 Available**\
+Frontend and product work.
+
+`TypeScript` `React` `Vue` `Node` `PostgreSQL` `MongoDB`
 
 > [!TIP]
 > Product portfolio coming soon.
