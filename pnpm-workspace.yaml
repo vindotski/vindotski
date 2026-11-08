@@ -1,0 +1,28 @@
+packages:
+  - apps/*
+  - packages/*
+
+# Supply chain (ADR 0010): releases install only once they're 14 days old,
+# provenance can't be downgraded, transitive deps can't come from git or
+# tarball URLs, and only the packages listed in allowBuilds may run install
+# scripts.
+minimumReleaseAge: 20160
+trustPolicy: no-downgrade
+# Packages published over a year ago skip the provenance check: many predate npm
+# provenance (Strapi pulls in plenty), and the policy targets fresh takeovers.
+trustPolicyIgnoreAfter: 525600
+# chokidar 4.0.3 (via svelte-check) was published without the provenance earlier
+# versions had; excepted by exact version only, so a newer one is checked again.
+trustPolicyExclude:
+  - chokidar@4.0.3
+blockExoticSubdeps: true
+strictDepBuilds: true
+engineStrict: true
+savePrefix: ""
+
+# Install scripts: esbuild's checks its platform binary; the others aren't needed
+# (@swc/core ships its binary as an optional dependency, core-js-pure's only prints).
+allowBuilds:
+  esbuild: true
+  "@swc/core": false
+  core-js-pure: false

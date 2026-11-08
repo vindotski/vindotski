@@ -1,0 +1,37 @@
+{
+  "kind": "collectionType",
+  "collectionName": "fragments",
+  "info": {
+    "singularName": "fragment",
+    "pluralName": "fragments",
+    "displayName": "Fragment",
+    "description": "Short, loose pieces for ski.vin."
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "title",
+      "required": true
+    },
+    "body": {
+      "type": "blocks"
+    },
+    "media": {
+      "type": "media",
+      "multiple": true,
+      "allowedTypes": [
+        "images",
+        "videos",
+        "audios"
+      ]
+    }
+  }
+}

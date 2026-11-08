@@ -1,0 +1,3 @@
+# The CMS is not a website: nothing to crawl.
+User-agent: *
+Disallow: /
