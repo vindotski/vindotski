@@ -1,0 +1,17 @@
+# JSON Schema (as YAML) for an ADR's front matter. Validate docs/decisions/*.md with it in CI.
+type: object
+required: [title, number, status, date]
+additionalProperties: false
+properties:
+  title: { type: string, minLength: 1 }
+  number: { type: integer, minimum: 1 }
+  status:
+    enum: [accepted, superseded]
+    description: Superseded means wholly replaced; a partly replaced record stays accepted and lists superseded_by.
+  implementation:
+    enum: [built, partly-built, designed]
+    description: Left out for a principle with nothing to build.
+  date: { type: string, format: date }
+  supersedes: { type: array, items: { type: integer, minimum: 1 } }
+  superseded_by: { type: array, items: { type: integer, minimum: 1 } }
+  notes: { type: string }
