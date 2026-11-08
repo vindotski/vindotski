@@ -1,4 +1,4 @@
-<!-- The style check: it should look the same on ski.vin/_style, apart from the primary color. -->
+<!-- The style check: it should look the same as the alt site's /_style, apart from the primary color. -->
 <script lang="ts">
 	import { Button } from '#lib/components/ui/button/index.js';
 	import * as Card from '#lib/components/ui/card/index.js';

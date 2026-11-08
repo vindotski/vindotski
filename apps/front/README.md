@@ -23,6 +23,7 @@ means a rebuild. See `.env.example`.
 | `PUBLIC_ENV` | `production`: indexable, no underscore routes. `preview`: noindex everywhere, robots.txt `Disallow: /`, and the preview-only `/_style` and `/_teaser` pages. |
 | `PUBLIC_SITE_URL` | The public origin. Canonical URLs, the sitemap and OG tags use it. |
 | `PUBLIC_TEASER` | `true`: teaser mode (ADR 0012). Only `/` (the teaser) is served; every other page is a 404 and the sitemap lists only `/`. Ignored on previews, which always show the full site and the teaser at `/_teaser`. |
+| `PUBLIC_ALT_URL` | The easter egg's target, the alt site (ADR 0008). Baked in encoded (reversed, XOR'd char codes), never as a plain string. |
 | `PUBLIC_SITE_NAME` | The site name, in titles and `og:site_name`. |
 | `CMS_URL` | The Strapi origin (vinski.xyz). Read at build time only. |
 | `CMS_TOKEN` | A read-only Strapi API token. Never reaches the browser. |
@@ -39,6 +40,10 @@ without its content. Content changes reach the site with the next build.
   at runtime) turns the whole group into 404s in teaser mode.
 - `src/routes/(preview)/`: `/_style` (theme check) and `/_teaser`. A 404 unless `PUBLIC_ENV=preview`.
 - `src/routes/sitemap.xml`, `src/routes/robots.txt`: generated from the route files (`src/lib/pages.ts`).
+- `src/lib/components/Wordmark.svelte`: the site's hostname in the header. Click it three times
+  and it flips to the alt site's name and links there (`rel="nofollow noreferrer"`). The URL is
+  decoded in the browser only after the trigger, so the HTML never contains it: after a build,
+  `grep -r <alt hostname> build/` finds nothing.
 - `src/lib/cms.ts`: the CMS client, used from `+page.server.ts` files (build time).
 - `src/lib/components/Seo.svelte`: title, description, canonical, Open Graph and JSON-LD. One per page.
 - `src/lib/components/ui/`: shadcn-svelte components (`components.json`). The theme is

@@ -53,6 +53,14 @@ export const variables = defineEnvVars({
 			throw new Error(`PUBLIC_TEASER must be true or false (got "${value}")`);
 		}
 	},
+	PUBLIC_ALT_URL: {
+		public: true,
+		static: true,
+		description:
+			'The easter egg target: the alt site (ADR 0008). Baked in encoded, never as a plain string; Wordmark.svelte decodes it after the trigger.',
+		// Reversed char codes, each XOR 23: no readable URL in the bundle or the HTML.
+		schema: (value) => [...url('PUBLIC_ALT_URL')(value)].reverse().map((char) => char.charCodeAt(0) ^ 23)
+	},
 	PUBLIC_SITE_NAME: {
 		public: true,
 		static: true,
