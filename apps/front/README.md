@@ -22,6 +22,7 @@ means a rebuild. See `.env.example`.
 |---|---|
 | `PUBLIC_ENV` | `production`: indexable, no underscore routes. `preview`: noindex everywhere, robots.txt `Disallow: /`, and the preview-only `/_style` and `/_teaser` pages. |
 | `PUBLIC_SITE_URL` | The public origin. Canonical URLs, the sitemap and OG tags use it. |
+| `PUBLIC_TEASER` | `true`: teaser mode (ADR 0012). Only `/` (the teaser) is served; every other page is a 404 and the sitemap lists only `/`. Ignored on previews, which always show the full site and the teaser at `/_teaser`. |
 | `PUBLIC_SITE_NAME` | The site name, in titles and `og:site_name`. |
 | `CMS_URL` | The Strapi origin (vinski.xyz). Read at build time only. |
 | `CMS_TOKEN` | A read-only Strapi API token. Never reaches the browser. |
@@ -33,6 +34,9 @@ without its content. Content changes reach the site with the next build.
 ## Layout
 
 - `src/routes/+layout.ts`: `prerender = true` for the whole site.
+- `src/routes/+page.svelte`: the home, `Home.svelte` or `Teaser.svelte` depending on teaser mode.
+- `src/routes/(site)/`: **every other page goes here.** Its `+layout.ts` (and `src/hooks.server.ts`
+  at runtime) turns the whole group into 404s in teaser mode.
 - `src/routes/(preview)/`: `/_style` (theme check) and `/_teaser`. A 404 unless `PUBLIC_ENV=preview`.
 - `src/routes/sitemap.xml`, `src/routes/robots.txt`: generated from the route files (`src/lib/pages.ts`).
 - `src/lib/cms.ts`: the CMS client, used from `+page.server.ts` files (build time).

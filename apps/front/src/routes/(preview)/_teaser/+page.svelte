@@ -2,7 +2,10 @@
 <script lang="ts">
 	import Seo from '#lib/components/Seo.svelte';
 	import Teaser from '#lib/components/Teaser.svelte';
+	import type { PageProps } from './$types';
+
+	let { data }: PageProps = $props();
 </script>
 
 <Seo title="Teaser" description="Teaser preview." path="/_teaser" />
-<Teaser />
+<Teaser profile={data.profile} />

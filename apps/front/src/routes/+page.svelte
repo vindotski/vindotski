@@ -1,6 +1,9 @@
 <script lang="ts">
 	import { PUBLIC_SITE_URL } from '$app/env/public';
+	import Home from '#lib/components/Home.svelte';
 	import Seo from '#lib/components/Seo.svelte';
+	import Teaser from '#lib/components/Teaser.svelte';
+	import { isTeaser } from '#lib/env.js';
 	import type { PageProps } from './$types';
 
 	let { data }: PageProps = $props();
@@ -20,33 +23,8 @@
 	}}
 />
 
-<main class="mx-auto flex min-h-svh max-w-2xl flex-col justify-center gap-8 p-6">
-	<header class="flex flex-col gap-2">
-		<h1 class="font-heading text-4xl font-medium">{profile.name}</h1>
-		{#if profile.headline}
-			<p class="text-muted-foreground text-lg">{profile.headline}</p>
-		{/if}
-	</header>
-
-	{#if projects.length}
-		<section class="flex flex-col gap-3">
-			<h2 class="font-heading text-xl font-medium">Projects</h2>
-			<ul class="flex flex-col gap-2">
-				{#each projects as project (project.documentId)}
-					<li>
-						<span class="font-medium">{project.title}</span>
-						{#if project.summary}<span class="text-muted-foreground"> · {project.summary}</span>{/if}
-					</li>
-				{/each}
-			</ul>
-		</section>
-	{/if}
-
-	{#if profile.links.length}
-		<nav class="flex gap-4">
-			{#each profile.links as link (link.url)}
-				<a class="text-primary underline-offset-4 hover:underline" href={link.url}>{link.label}</a>
-			{/each}
-		</nav>
-	{/if}
-</main>
+{#if isTeaser}
+	<Teaser {profile} />
+{:else}
+	<Home {profile} {projects} />
+{/if}

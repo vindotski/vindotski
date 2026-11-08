@@ -43,6 +43,16 @@ export const variables = defineEnvVars({
 		description: 'The public origin, e.g. https://vin.ski. Canonical URLs, the sitemap and OG tags use it.',
 		schema: url('PUBLIC_SITE_URL')
 	},
+	PUBLIC_TEASER: {
+		public: true,
+		static: true,
+		description: '`true`: only `/` (the teaser) is served, every other page is a 404. Ignored on previews.',
+		schema: (value) => {
+			if (value === undefined || value === '' || value === 'false') return false;
+			if (value === 'true') return true;
+			throw new Error(`PUBLIC_TEASER must be true or false (got "${value}")`);
+		}
+	},
 	PUBLIC_SITE_NAME: {
 		public: true,
 		static: true,
