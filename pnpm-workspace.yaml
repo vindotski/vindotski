@@ -1,0 +1,14 @@
+packages:
+  - apps/*
+  - packages/*
+
+# Supply chain (ADR 0010): releases install only once they're 14 days old,
+# provenance can't be downgraded, transitive deps can't come from git or
+# tarball URLs, and only the packages listed in allowBuilds may run install
+# scripts.
+minimumReleaseAge: 20160
+trustPolicy: no-downgrade
+blockExoticSubdeps: true
+strictDepBuilds: true
+engineStrict: true
+savePrefix: ""

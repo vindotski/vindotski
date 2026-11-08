@@ -1,1 +1,25 @@
 .DS_Store
+node_modules/
+
+# Env files: commit only the .env.example next to each app.
+.env
+.env.*
+!.env.example
+
+# Build output
+build/
+dist/
+.next/
+.svelte-kit/
+out/
+coverage/
+*.tsbuildinfo
+
+# Strapi
+.strapi/
+.tmp/
+apps/cms/public/uploads/*
+!apps/cms/public/uploads/.gitkeep
+
+# Logs
+*.log
