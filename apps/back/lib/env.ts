@@ -24,6 +24,22 @@ export const env = {
   get SITE_NAME() {
     return required("SITE_NAME");
   },
+  /** The Strapi origin, e.g. https://vinski.xyz. */
+  get CMS_URL() {
+    return required("CMS_URL");
+  },
+  /** A read-only Strapi API token for this site. */
+  get CMS_TOKEN() {
+    return required("CMS_TOKEN");
+  },
+  /** `published` (production) or `draft` (previews, which include unpublished changes). */
+  get CMS_STATUS() {
+    return oneOf("CMS_STATUS", ["published", "draft"] as const);
+  },
+  /** The shared secret the CMS webhook sends to /api/revalidate. */
+  get REVALIDATE_SECRET() {
+    return required("REVALIDATE_SECRET");
+  },
 };
 
 export const isPreview = () => env.PUBLIC_ENV === "preview";

@@ -27,6 +27,21 @@ See `.env.example`. Static pages read their env when they're prerendered at buil
 |---|---|
 | `PUBLIC_ENV` | `production`, or `preview` (dev.ski.vin), which turns on `/_style`. |
 | `SITE_NAME` | The page title. |
+| `CMS_URL` | The Strapi origin (vinski.xyz). |
+| `CMS_TOKEN` | A read-only Strapi API token. Server-only. |
+| `CMS_STATUS` | `published` (production) or `draft` (previews: unpublished changes too). |
+| `REVALIDATE_SECRET` | Shared with the Strapi webhook that calls `/api/revalidate`. |
+
+## Content
+
+`lib/cms.ts` reads Strapi with `"use cache"` under the `cms` tag, so pages are prerendered with
+their content (the build needs the CMS running). To refresh them when content changes, add a
+webhook in Strapi (Settings → Webhooks) for entry create, update, delete, publish and unpublish:
+
+- URL: `https://ski.vin/api/revalidate` (and one for `https://dev.ski.vin/api/revalidate`)
+- Header: `Authorization: Bearer <REVALIDATE_SECRET>`
+
+Pages refresh on their next visit; without the webhook they refresh hourly.
 
 ## Layout
 

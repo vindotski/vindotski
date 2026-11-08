@@ -48,5 +48,22 @@ export const variables = defineEnvVars({
 		static: true,
 		description: 'The site name, used in titles and `og:site_name`.',
 		schema: required('PUBLIC_SITE_NAME')
+	},
+
+	// The CMS (vinski.xyz), read at build time only: these never reach the browser.
+	CMS_URL: {
+		static: true,
+		description: 'The Strapi origin, e.g. https://vinski.xyz.',
+		schema: url('CMS_URL')
+	},
+	CMS_TOKEN: {
+		static: true,
+		description: 'A read-only Strapi API token for this site.',
+		schema: required('CMS_TOKEN')
+	},
+	CMS_STATUS: {
+		static: true,
+		description: '`published` (production) or `draft` (previews, which include unpublished changes).',
+		schema: oneOf('CMS_STATUS', ['published', 'draft'] as const)
 	}
 });
