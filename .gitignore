@@ -17,9 +17,11 @@ coverage/
 
 # Strapi
 .strapi/
+apps/cms/types/generated/
 .tmp/
 apps/cms/public/uploads/*
 !apps/cms/public/uploads/.gitkeep
 
 # Logs
 *.log
+.strapi-updater.json
