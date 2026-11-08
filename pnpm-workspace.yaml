@@ -8,6 +8,10 @@ packages:
 # scripts.
 minimumReleaseAge: 20160
 trustPolicy: no-downgrade
+# chokidar 4.0.3 (via svelte-check) was published without the provenance earlier
+# versions had; excepted by exact version only, so a newer one is checked again.
+trustPolicyExclude:
+  - chokidar@4.0.3
 blockExoticSubdeps: true
 strictDepBuilds: true
 engineStrict: true
