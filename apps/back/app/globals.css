@@ -3,17 +3,12 @@
 @import "./shadcn.css";
 @import "@vindotski/theme/theme.css";
 
-/* ski.vin's brand color. Everything else comes from @vindotski/theme. */
-:root {
-  --primary: oklch(0.841 0.238 128.85);
-  --primary-foreground: oklch(0.205 0 0);
-  --ring: oklch(0.841 0.238 128.85);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --primary: oklch(0.897 0.196 126.665);
-    --primary-foreground: oklch(0.205 0 0);
-    --ring: oklch(0.897 0.196 126.665);
-  }
+/* ski.vin's brand color: red. Everything else comes from @vindotski/theme.
+   The site is always dark (<html class="dark">, ADR 0016), so one value
+   covers both the light root and the forced dark tokens. */
+:root,
+.dark {
+  --primary: oklch(0.637 0.237 25.331);
+  --primary-foreground: oklch(0.985 0 0);
+  --ring: oklch(0.637 0.237 25.331);
 }
