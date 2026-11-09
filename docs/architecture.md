@@ -10,7 +10,8 @@ apps/
   back/    Next.js (App Router)   → ski.vin    online, never listed
   cms/     Strapi 5 + Postgres    → vinski.xyz admin /admin, API /api
 packages/
-  theme/   @vindotski/theme: shadcn tokens shared by both sites
+  theme/     @vindotski/theme: shadcn tokens and color modes shared by both sites
+  crossover/ @vindotski/crossover: pull past the end to cross to the other site
 infra/
   hetzner/ cloudflare/ bootstrap/ stack/   (designed, not built yet)
 ```
@@ -18,7 +19,7 @@ infra/
 - **One look:** both sites use Tailwind v4 and shadcn (shadcn-svelte for front, shadcn/ui for back). They import the same `packages/theme/theme.css` and override only `--primary` and `--ring` ([7](decisions/0007-shared-theme.md)).
 - **front:** every page is prerendered, with a canonical URL, Open Graph tags, JSON-LD and a sitemap ([4](decisions/0004-front-sveltekit.md)). `PUBLIC_TEASER=true` reduces it to a teaser at `/` ([12](decisions/0012-teaser-mode.md)).
 - **back:** every response carries `X-Robots-Tag: noindex`. It has no sitemap and no link previews, and its robots.txt blocks AI bots ([5](decisions/0005-back-never-listed.md)).
-- **The easter egg:** the wordmark on vin.ski flips to ski.vin. The link is created only in the browser, after the trigger ([8](decisions/0008-easter-egg.md)).
+- **Crossing between the sites:** pulling past the end of either site floods the screen in the other's brand color and carries you there ([17](decisions/0017-pull-to-cross.md)). The wordmark on vin.ski also flips to ski.vin after three clicks ([8](decisions/0008-easter-egg.md)). vin.ski's HTML never contains ski.vin's URL; it's decoded in the browser.
 
 ## Content
 

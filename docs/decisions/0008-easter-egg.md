@@ -4,7 +4,8 @@ number: 8
 status: accepted
 implementation: built
 date: 2026-11-09
-notes: "Built in roadmap stage 1. The front build output contains no ski.vin URL."
+superseded_by: [17]
+notes: "Built in roadmap stage 1. The front build output contains no ski.vin URL. Since ADR 17, scrolling past the end also leads to ski.vin, so the egg is no longer hidden behind the triple-click alone."
 ---
 
 ## Context

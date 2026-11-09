@@ -1,0 +1,13 @@
+{
+  "name": "@vindotski/crossover",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./crossover.d.ts",
+      "default": "./crossover.js"
+    },
+    "./crossover.css": "./crossover.css"
+  }
+}
