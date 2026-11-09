@@ -5,9 +5,12 @@
 @import "@vindotski/crossover/crossover.css";
 
 /* ski.vin is the Underground: always dark (<html class="dark">, ADR 0019), with a
-   red brand color. Everything else comes from @vindotski/theme. */
+   red brand color. Everything else comes from @vindotski/theme.
+   `:root.dark` matches the specificity of the theme's system-dark block
+   (`:root:not(.light)`), which still applies to <html class="dark"> when the
+   visitor's system is dark; loading later, this wins the tie. */
 :root,
-.dark {
+:root.dark {
   --primary: oklch(0.637 0.237 25.331);
   --primary-foreground: oklch(0.985 0 0);
   --ring: oklch(0.637 0.237 25.331);
