@@ -2,8 +2,9 @@
 title: "vin.ski hides an easter egg: its wordmark flips to ski.vin, and the link exists only after the trigger"
 number: 8
 status: accepted
-implementation: designed
+implementation: built
 date: 2026-11-09
+notes: "Built in roadmap stage 1. The front build output contains no ski.vin URL."
 ---
 
 ## Context

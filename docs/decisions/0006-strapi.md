@@ -2,8 +2,9 @@
 title: "Strapi 5 with Postgres at vinski.xyz serves content to both sites over REST"
 number: 6
 status: accepted
-implementation: designed
+implementation: partly-built
 date: 2026-11-09
+notes: "Strapi and the three content types run locally. The vinski.xyz deploy and the preview tokens come with stage 2."
 ---
 
 ## Context

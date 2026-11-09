@@ -2,8 +2,9 @@
 title: "Agents work from AGENTS.md and vendored, pinned skills"
 number: 11
 status: accepted
-implementation: designed
+implementation: built
 date: 2026-11-09
+notes: "AGENTS.md files and 12 vendored skills. Not yet checked in a fresh agent session."
 ---
 
 ## Context

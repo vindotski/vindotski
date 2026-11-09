@@ -2,8 +2,9 @@
 title: "Both sites share one shadcn preset through packages/theme; only --primary and --ring differ"
 number: 7
 status: accepted
-implementation: designed
+implementation: built
 date: 2026-11-09
+notes: "Preset b6RdvRWulu (vega, neutral, no radius, Space Grotesk), the same in both CLIs."
 ---
 
 ## Context

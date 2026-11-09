@@ -2,8 +2,9 @@
 title: "vin.ski has a build-time teaser mode: only / is served, and every other route returns 404"
 number: 12
 status: accepted
-implementation: designed
+implementation: built
 date: 2026-11-09
+notes: "Built in roadmap stage 1."
 ---
 
 ## Context

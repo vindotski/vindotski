@@ -2,8 +2,9 @@
 title: "vin.ski is a prerendered SvelteKit site, built for search"
 number: 4
 status: accepted
-implementation: designed
+implementation: built
 date: 2026-11-09
+notes: "Built in roadmap stage 1 (adapter-node, prerendering, Seo.svelte, sitemap, robots)."
 ---
 
 ## Context

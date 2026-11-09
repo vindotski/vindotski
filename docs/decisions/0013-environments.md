@@ -2,9 +2,9 @@
 title: "Two environments from two branches: main deploys production, dev deploys previews at dev.vin.ski and dev.ski.vin"
 number: 13
 status: accepted
-implementation: designed
+implementation: partly-built
 date: 2026-11-09
-notes: "Built in roadmap stage 2."
+notes: "PUBLIC_ENV and the preview-only routes are built. Branches, hosts, basic auth and deploys come with stage 2."
 ---
 
 ## Context

@@ -9,15 +9,15 @@ The order things are built in. Each step is one change that leaves every check g
 **Done when:** on both `/_style` pages, the components are identical apart from the primary color. A profile published in Strapi shows up on both sites. The front build is indexable, and back sends noindex.
 
 0. [x] **Docs and decisions** (1): `docs/`, ADRs 1–15, and the wiki sync. *Check:* every link resolves, and a dry run of the sync produces Home, Decisions and the ADR pages.
-1. [ ] **Agent setup** (11): `AGENTS.md`, `CLAUDE.md`, the app `AGENTS.md` files, and the vendored skills in `skills-lock.json`. *Check:* a fresh agent session lists the skills and the rules.
-2. [ ] **Workspace** (2, 10): `pnpm-workspace.yaml`, root scripts, `.nvmrc`, `save-exact`. *Check:* `pnpm install` succeeds on a clean clone.
-3. [ ] **Theme** (7): `packages/theme/theme.css` holds the chosen preset. *Check:* the same style is confirmed in both shadcn builders.
-4. [ ] **front scaffold** (4, 13): SvelteKit with `adapter-node`, prerendering, `PUBLIC_ENV`, `Seo.svelte`, the sitemap, robots, and the `(preview)` routes. *Check:* `pnpm --filter front build` prerenders the site with a canonical URL, JSON-LD and a sitemap, and `/_style` returns 404 in production.
-5. [ ] **back scaffold** (5, 13): Next.js with the robots headers, metadata and robots.txt, and `/_style` only in preview. *Check:* `curl -I` on a page and on an asset shows `X-Robots-Tag`, `/sitemap.xml` returns 404, and there are no `og:` tags.
-6. [ ] **Strapi** (6): `apps/cms` with Postgres and the `profile`, `project` and `fragment` types. *Check:* a fresh database starts, and the content types appear in the admin.
-7. [ ] **CMS clients** (6): both sites read Strapi through `CMS_URL`, `CMS_TOKEN` and `CMS_STATUS`. *Check:* a published profile shows up on both sites, and a draft only on preview builds.
-8. [ ] **Teaser mode** (12): the `(site)` group and the guard. *Check:* a production teaser build serves only `/`, and a preview build serves the full site plus `/_teaser`.
-9. [ ] **Easter egg** (8): `Wordmark.svelte`. *Check:* the trigger flips the wordmark and the link works, and `grep -r ski.vin` finds nothing in the front build output.
+1. [ ] **Agent setup** (11): `AGENTS.md`, `CLAUDE.md`, the app `AGENTS.md` files, and the vendored skills in `skills-lock.json`. *Check:* a fresh agent session lists the skills and the rules. (Built and merged; that check hasn't been run yet.)
+2. [x] **Workspace** (2, 10): `pnpm-workspace.yaml`, root scripts, `.nvmrc`, `save-exact`. *Check:* `pnpm install` succeeds on a clean clone.
+3. [x] **Theme** (7): `packages/theme/theme.css` holds the chosen preset. *Check:* the same style is confirmed in both shadcn builders.
+4. [x] **front scaffold** (4, 13): SvelteKit with `adapter-node`, prerendering, `PUBLIC_ENV`, `Seo.svelte`, the sitemap, robots, and the `(preview)` routes. *Check:* `pnpm --filter front build` prerenders the site with a canonical URL, JSON-LD and a sitemap, and `/_style` returns 404 in production.
+5. [x] **back scaffold** (5, 13): Next.js with the robots headers, metadata and robots.txt, and `/_style` only in preview. *Check:* `curl -I` on a page and on an asset shows `X-Robots-Tag`, `/sitemap.xml` returns 404, and there are no `og:` tags.
+6. [x] **Strapi** (6): `apps/cms` with Postgres and the `profile`, `project` and `fragment` types. *Check:* a fresh database starts, and the content types appear in the admin.
+7. [x] **CMS clients** (6): both sites read Strapi through `CMS_URL`, `CMS_TOKEN` and `CMS_STATUS`. *Check:* a published profile shows up on both sites, and a draft only on preview builds.
+8. [x] **Teaser mode** (12): the `(site)` group and the guard. *Check:* a production teaser build serves only `/`, and a preview build serves the full site plus `/_teaser`.
+9. [x] **Easter egg** (8): `Wordmark.svelte`. *Check:* the trigger flips the wordmark and the link works, and `grep -r ski.vin` finds nothing in the front build output.
 
 **Decisions to make:** the shadcn style, font and the two brand colors (with the designer). Optional `.mcp.json` servers (Svelte, shadcn, Next.js devtools).
 

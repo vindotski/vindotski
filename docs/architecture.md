@@ -1,8 +1,8 @@
 # Architecture
 
-Everything described here is designed but not built yet. The [roadmap](roadmap.md) tracks what's done.
+The apps, theme and content run locally. Environments on servers and hosting are designed, not built yet. The [roadmap](roadmap.md) tracks what's done.
 
-## Apps (designed, not built yet)
+## Apps
 
 ```
 apps/
@@ -12,7 +12,7 @@ apps/
 packages/
   theme/   @vindotski/theme: shadcn tokens shared by both sites
 infra/
-  hetzner/ cloudflare/ bootstrap/ stack/
+  hetzner/ cloudflare/ bootstrap/ stack/   (designed, not built yet)
 ```
 
 - **One look:** both sites use Tailwind v4 and shadcn (shadcn-svelte for front, shadcn/ui for back). They import the same `packages/theme/theme.css` and override only `--primary` and `--ring` ([7](decisions/0007-shared-theme.md)).
@@ -20,7 +20,7 @@ infra/
 - **back:** every response carries `X-Robots-Tag: noindex`. It has no sitemap and no link previews, and its robots.txt blocks AI bots ([5](decisions/0005-back-never-listed.md)).
 - **The easter egg:** the wordmark on vin.ski flips to ski.vin. The link is created only in the browser, after the trigger ([8](decisions/0008-easter-egg.md)).
 
-## Content (designed, not built yet)
+## Content
 
 ```
 Strapi (vinski.xyz) ──REST──▶ front  at build time    (rebuild on publish)
@@ -29,7 +29,7 @@ Strapi (vinski.xyz) ──REST──▶ front  at build time    (rebuild on publ
 
 Content types: `profile` (single), `project` (with `site`: front, back or both) and `fragment` (the alt site). Production reads published entries, and preview reads drafts ([6](decisions/0006-strapi.md)).
 
-## Environments (designed, not built yet)
+## Environments (the `PUBLIC_ENV` flag is built; branches, hosts and deploys are designed, not built yet)
 
 | Branch | front | back | `PUBLIC_ENV` |
 | --- | --- | --- | --- |

@@ -2,8 +2,9 @@
 title: "ski.vin is a Next.js site that is online but never listed"
 number: 5
 status: accepted
-implementation: designed
+implementation: built
 date: 2026-11-09
+notes: "Built in roadmap stage 1. Cloudflare Block AI bots comes with stage 2."
 ---
 
 ## Context

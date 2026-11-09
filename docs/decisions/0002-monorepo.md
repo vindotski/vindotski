@@ -2,8 +2,9 @@
 title: "One pnpm monorepo: apps/front, apps/back, apps/cms and packages/*"
 number: 2
 status: accepted
-implementation: designed
+implementation: built
 date: 2026-11-09
+notes: "Workspace built in roadmap stage 1. Strapi runs under pnpm without node-linker=hoisted."
 ---
 
 ## Context
