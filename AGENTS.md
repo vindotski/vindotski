@@ -46,7 +46,9 @@ pnpm --filter <front|back|cms> check
 1. Read `docs/decisions` and `docs/roadmap.md` before proposing anything; don't contradict an accepted ADR silently.
 2. Every decision gets an ADR (`decisions-and-docs` skill), in the same change as the code it shapes.
 3. Update the affected READMEs (`apps/*/README.md`, `docs/`) in the same change as the code.
-4. Small Conventional Commits (`commit-message` skill). Propose the message; commit only after Ivan's OK,
+4. Keep CI green (`.github/workflows/ci.yml`; `node scripts/check-docs.mjs` for docs). A rule that can be
+   checked in a build belongs in CI as an assertion.
+5. Small Conventional Commits (`commit-message` skill). Propose the message; commit only after Ivan's OK,
    with a `Co-Authored-By` line. Never push without being asked.
 
 ## Skills
