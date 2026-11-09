@@ -17,15 +17,17 @@
 @import "@fontsource-variable/geist";
 @import "@fontsource-variable/geist-mono";
 
-/* Dark mode follows the system setting (vin.ski), or is forced by a `dark`
-   class on an ancestor (ski.vin puts it on <html>). No toggle and no
-   JavaScript, so it works on prerendered pages (ADR 0016). */
+/* Color modes (ADR 0016). <html> has no class for "system" (prefers-color-scheme
+   decides), or `light` / `dark` when the visitor picked one (color-mode.js).
+   The `dark:` variant follows the same rule. */
 @custom-variant dark {
-  @media (prefers-color-scheme: dark) {
-    @slot;
-  }
   &:where(.dark, .dark *) {
     @slot;
+  }
+  @media (prefers-color-scheme: dark) {
+    &:where(:not(.light, .light *)) {
+      @slot;
+    }
   }
 }
 
@@ -65,7 +67,7 @@
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not(.light) {
     --background: oklch(0.145 0 0);
     --foreground: oklch(0.985 0 0);
     --card: oklch(0.205 0 0);
@@ -100,7 +102,7 @@
   }
 }
 
-/* The same dark tokens, for a forced `dark` class. Keep both blocks in sync. */
+/* The same dark tokens, for a chosen `dark` mode. Keep both blocks in sync. */
 .dark {
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
@@ -180,6 +182,15 @@
 }
 
 @layer base {
+  :root {
+    color-scheme: light dark;
+  }
+  :root.light {
+    color-scheme: light;
+  }
+  :root.dark {
+    color-scheme: dark;
+  }
   * {
     @apply border-border outline-ring/50;
   }

@@ -20,7 +20,7 @@ The order things are built in. Each step is one change that leaves every check g
 9. [x] **Easter egg** (8): `Wordmark.svelte`. *Check:* the trigger flips the wordmark and the link works, and `grep -r ski.vin` finds nothing in the front build output.
 
 **Also done in this stage:**
-- [x] **Teaser in the spirit of the old vin.ski** (16): Geist and Geist Mono, the profile's `role` and `availability`, an eyebrow with the wordmark, link buttons, the portrait and a ticker. ski.vin is always dark and red, and vin.ski follows the system and stays blue.
+- [x] **Teaser in the spirit of the old vin.ski** (16): Geist and Geist Mono, the profile's `role` and `availability`, an eyebrow with the wordmark, link buttons, the portrait and a ticker. Both sites have a color-mode toggle: vin.ski defaults to the system and stays blue, and ski.vin defaults to dark and is red.
 
 **Decisions to make:** the final brand colors and any further design (with the designer). Optional `.mcp.json` servers (Svelte, shadcn, Next.js devtools).
 

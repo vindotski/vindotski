@@ -40,13 +40,16 @@ without its content. Content changes reach the site with the next build.
   at runtime) turns the whole group into 404s in teaser mode.
 - `src/routes/(preview)/`: `/_style` (theme check) and `/_teaser`. A 404 unless `PUBLIC_ENV=preview`.
 - `src/routes/sitemap.xml`, `src/routes/robots.txt`: generated from the route files (`src/lib/pages.ts`).
-- `src/lib/components/SiteHeader.svelte`: the header with the wordmark, rendered by `Home.svelte` and
+- `src/lib/components/SiteHeader.svelte`: the header with the wordmark and the color-mode toggle, rendered by `Home.svelte` and
   `src/routes/(site)/+layout.svelte`. The teaser has no header; it places the wordmark in its eyebrow.
 - `src/lib/components/Teaser.svelte`: the teaser. A full-height hero from the Strapi profile: a mono
   eyebrow (wordmark · `role`), the `headline`, the `availability` line, a button per link (`mailto:`
   ones solid, the rest outlined), the `avatar` (grayscale on phones, color from `md`), and a
-  "Coming soon" ticker in the brand color that stops under `prefers-reduced-motion`. It follows the
-  system color mode.
+  "Coming soon" ticker in the brand color that stops under `prefers-reduced-motion`. A color-mode
+  toggle sits in its corner.
+- `src/lib/components/ColorModeToggle.svelte`: cycles system → light → dark (ADR 0016), in the header
+  and on the teaser. vin.ski defaults to `system`. The root layout's `<head>` script applies the
+  stored choice before the first paint.
 - `src/lib/components/Wordmark.svelte`: the site's hostname. Click it three times
   and it flips to the alt site's name and links there (`rel="nofollow noreferrer"`). The URL is
   decoded in the browser only after the trigger, so the HTML never contains it: after a build,

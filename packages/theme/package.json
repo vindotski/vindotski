@@ -4,7 +4,11 @@
   "private": true,
   "type": "module",
   "exports": {
-    "./theme.css": "./theme.css"
+    "./theme.css": "./theme.css",
+    "./color-mode": {
+      "types": "./color-mode.d.ts",
+      "default": "./color-mode.js"
+    }
   },
   "dependencies": {
     "@fontsource-variable/geist": "5.3.0",

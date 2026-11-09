@@ -3,10 +3,11 @@
 @import "./shadcn.css";
 @import "@vindotski/theme/theme.css";
 
-/* ski.vin's brand color: red. Everything else comes from @vindotski/theme.
-   The site is always dark (<html class="dark">, ADR 0016), so one value
-   covers both the light root and the forced dark tokens. */
+/* ski.vin's brand color: red, the same in every color mode. Everything else
+   comes from @vindotski/theme. The selectors match the theme's light, system-dark
+   and chosen-dark token blocks, so red wins in all three (ADR 0016). */
 :root,
+:root:not(.light),
 .dark {
   --primary: oklch(0.637 0.237 25.331);
   --primary-foreground: oklch(0.985 0 0);

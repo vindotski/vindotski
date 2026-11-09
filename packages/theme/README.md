@@ -28,7 +28,21 @@ In an app's global CSS, after Tailwind and the framework's shadcn helpers:
 Only the brand color (`--primary`, its foreground and `--ring`) differs per app. Components
 can't be shared across Svelte and React, so each app keeps its own copies; only the tokens live here.
 
-Dark mode follows the system setting (`prefers-color-scheme`), or is forced by a `dark` class on an
-ancestor: the `dark:` variant matches either, and the dark tokens are defined for both (keep the media
-block and the `.dark` block in sync). vin.ski follows the system; ski.vin puts `class="dark"` on
-`<html>`, so it's always dark. There's no toggle and no JavaScript.
+## Color modes
+
+There are three modes (ADR 0016): `system` leaves `<html>` without a class, so `prefers-color-scheme`
+decides, and `light` or `dark` puts that class on `<html>`. The `dark:` variant and the dark tokens
+follow the same rule. The dark tokens are written twice (the media block and the `.dark` block), so
+keep them in sync. An app's brand override uses the same selectors.
+
+`@vindotski/theme/color-mode` holds the logic both sites share:
+
+| Export | |
+|---|---|
+| `colorModeScript(default)` | An inline `<head>` script. It applies the stored mode, or the site's default, before the first paint. |
+| `getColorMode(default)` | The mode in use, for a toggle's first render. |
+| `setColorMode(mode)` | Applies a mode, and stores it in `localStorage` (`color-mode`). |
+| `nextColorMode(mode)` | system → light → dark → system. |
+
+vin.ski defaults to `system`. ski.vin defaults to `dark`, and also renders `<html class="dark">`
+so it's dark without JavaScript.

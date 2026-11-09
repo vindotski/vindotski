@@ -21,4 +21,4 @@ Each record has front matter (`title`, `number`, `status`, `implementation`, `da
 | [13](0013-environments.md) | Two environments from two branches: `main` deploys production, `dev` deploys previews | Partly built |
 | [14](0014-cloudflare-edge.md) | Cloudflare sits in front, optionally: a Tunnel, and edge caching tuned per app | Designed |
 | [15](0015-infrastructure-as-code.md) | All Hetzner and Cloudflare configuration is OpenTofu, with encrypted state in R2 | Designed |
-| [16](0016-geist-and-color-modes.md) | Geist and Geist Mono replace Space Grotesk; vin.ski follows the system color mode, ski.vin is always dark | Built |
+| [16](0016-geist-and-color-modes.md) | Geist and Geist Mono replace Space Grotesk; both sites have a color-mode toggle, vin.ski defaults to the system and ski.vin to dark | Built |

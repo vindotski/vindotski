@@ -3,7 +3,9 @@
 @import 'shadcn-svelte/tailwind.css';
 @import '@vindotski/theme/theme.css';
 
-/* vin.ski's brand color. Everything else comes from @vindotski/theme. */
+/* vin.ski's brand color: blue. Everything else comes from @vindotski/theme.
+   Same color-mode rules as the theme (ADR 0016): system by default, or the
+   visitor's `light` / `dark` class on <html>. */
 :root {
 	--primary: oklch(0.546 0.245 262.881);
 	--primary-foreground: oklch(0.985 0 0);
@@ -11,9 +13,15 @@
 }
 
 @media (prefers-color-scheme: dark) {
-	:root {
+	:root:not(.light) {
 		--primary: oklch(0.623 0.214 259.815);
 		--primary-foreground: oklch(0.985 0 0);
 		--ring: oklch(0.623 0.214 259.815);
 	}
+}
+
+:root.dark {
+	--primary: oklch(0.623 0.214 259.815);
+	--primary-foreground: oklch(0.985 0 0);
+	--ring: oklch(0.623 0.214 259.815);
 }
