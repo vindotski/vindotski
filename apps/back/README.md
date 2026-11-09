@@ -45,10 +45,14 @@ Pages refresh on their next visit; without the webhook they refresh hourly.
 
 ## Layout
 
+- `app/layout.tsx`: renders `<html class="dark">`, because ski.vin defaults to dark (ADR 0016), and puts
+  the color-mode `<head>` script (from `@vindotski/theme/color-mode`) before anything paints.
+- `components/color-mode-toggle.tsx`: the toggle fixed in the top-right corner. It cycles
+  system → light → dark, and the choice is kept in `localStorage`.
 - `app/%5Fstyle/`: `/_style`, the theme check (Next.js treats `_folders` as private, hence `%5F`).
   A 404 unless `PUBLIC_ENV=preview`.
 - `components/ui/`: shadcn/ui components (`components.json`, style `radix-vega`). The theme is
-  `@vindotski/theme`; `app/globals.css` only sets the brand color (`--primary`, `--ring`).
+  `@vindotski/theme`; `app/globals.css` only sets the brand color (`--primary`, `--ring`): red in every mode.
 - `app/shadcn.css`: shadcn's Tailwind helpers, vendored from `shadcn@4.22.1`, because the npm
   package is the whole CLI. Update it together with the components.
 

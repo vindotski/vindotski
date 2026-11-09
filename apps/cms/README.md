@@ -22,7 +22,7 @@ which writes the same files), never by hand in the database.
 
 | Type | Kind | |
 |---|---|---|
-| `profile` | single | The person behind both sites: name, headline, bio, location, avatar, links. |
+| `profile` | single | The person behind both sites: name, headline, role, availability, bio, location, avatar, links. |
 | `project` | collection | Title, slug, summary, body, URLs, cover, `site` (`front`, `back` or `both`), order. |
 | `fragment` | collection | Short, loose pieces for ski.vin: title, slug, body, media. |
 | `shared.link` | component | A label and a URL. |

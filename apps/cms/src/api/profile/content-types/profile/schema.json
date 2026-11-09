@@ -19,6 +19,12 @@
     "headline": {
       "type": "string"
     },
+    "role": {
+      "type": "string"
+    },
+    "availability": {
+      "type": "string"
+    },
     "bio": {
       "type": "text"
     },
