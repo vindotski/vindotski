@@ -12,6 +12,8 @@ export type Media = { url: string; alternativeText: string | null; width: number
 export type Profile = {
 	name: string;
 	headline: string | null;
+	role: string | null;
+	availability: string | null;
 	bio: string | null;
 	location: string | null;
 	avatar: Media | null;
@@ -45,7 +47,12 @@ async function get<T>(path: string, params: Record<string, string> = {}): Promis
 /** Media URLs from Strapi are relative to the CMS. */
 export const mediaUrl = (media: Media) => new URL(media.url, CMS_URL).href;
 
-export const getProfile = () => get<Profile>('/api/profile', { populate: '*' });
+/** The profile, with its avatar URL made absolute so components can use it as-is. */
+export const getProfile = async () => {
+	const profile = await get<Profile>('/api/profile', { populate: '*' });
+	if (profile.avatar) profile.avatar = { ...profile.avatar, url: mediaUrl(profile.avatar) };
+	return profile;
+};
 
 /** Projects for vin.ski: those marked `front` or `both`, in their set order. */
 export const getProjects = () =>

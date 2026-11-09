@@ -17,6 +17,8 @@ export type Media = { url: string; alternativeText: string | null; width: number
 export type Profile = {
   name: string;
   headline: string | null;
+  role: string | null;
+  availability: string | null;
   bio: string | null;
   location: string | null;
   avatar: Media | null;
