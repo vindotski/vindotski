@@ -35,9 +35,12 @@ so the code has to read like markup.
 
 ## Never link to ski.vin in the HTML
 
-The built HTML must not contain the alt site's URL. The easter egg (`Wordmark.svelte`) assembles it
-client-side from `PUBLIC_ALT_URL`, only after the trigger fires, and not as a plain string in the
-bundle. The link is `rel="nofollow noreferrer"`. Check with `grep -r ski.vin build/` after a build.
+The built HTML must not contain the alt site's URL. `src/lib/alt-url.ts` decodes it client-side from
+`PUBLIC_ALT_URL`, only when the easter egg (`Wordmark.svelte`) or the pull-past-the-end crossover
+(`Crossover.svelte`, ADR 0017) needs it, never as a plain string in the bundle. Links are
+`rel="nofollow noreferrer"`. Don't write the alt hostname in this app's source, comments included:
+source maps carry comments into `build/`. Say "the alt site". Check with `grep -r ski.vin build/`
+after a build.
 
 ## SEO checklist (every page)
 

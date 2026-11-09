@@ -4,7 +4,8 @@
 	decoded after the trigger, in the browser, so it never appears in the HTML.
 -->
 <script lang="ts">
-	import { PUBLIC_ALT_URL, PUBLIC_SITE_URL } from '$app/env/public';
+	import { PUBLIC_SITE_URL } from '$app/env/public';
+	import { altUrl as decodeAltUrl } from '#lib/alt-url.js';
 	import { cn } from '#lib/utils.js';
 
 	// Lets a page restyle the wordmark (the teaser shows it as its eyebrow).
@@ -17,16 +18,10 @@
 	let clicks: number[] = [];
 	let altUrl = $state<string | null>(null);
 
-	const decode = (codes: number[]) =>
-		codes
-			.map((code) => String.fromCharCode(code ^ 23))
-			.reverse()
-			.join('');
-
 	function onclick() {
 		const now = Date.now();
 		clicks = [...clicks.filter((time) => now - time < clickWindowMs), now];
-		if (clicks.length >= clicksToFlip) altUrl = decode(PUBLIC_ALT_URL);
+		if (clicks.length >= clicksToFlip) altUrl = decodeAltUrl();
 	}
 </script>
 

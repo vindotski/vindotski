@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
+import { arriveScript } from "@vindotski/crossover";
 import { colorModeScript } from "@vindotski/theme/color-mode";
 import { ColorModeToggle } from "@/components/color-mode-toggle";
+import { Crossover } from "@/components/crossover";
 import { env } from "@/lib/env";
 import "./globals.css";
 
@@ -29,10 +31,13 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html lang="en" className="dark h-full antialiased" suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: colorModeScript("dark") }} />
+        {/* Plays the reveal when arriving from vin.ski's pull-past-the-end (ADR 0017). */}
+        <script dangerouslySetInnerHTML={{ __html: arriveScript }} />
       </head>
       <body className="flex min-h-full flex-col">
         <ColorModeToggle className="fixed top-4 right-4 z-50" />
         {children}
+        <Crossover url={env.FRONT_URL} />
       </body>
     </html>
   );

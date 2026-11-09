@@ -33,6 +33,7 @@
 	},
 	"dependencies": {
 		"@lucide/svelte": "1.61.0",
+		"@vindotski/crossover": "workspace:*",
 		"@vindotski/theme": "workspace:*"
 	}
 }

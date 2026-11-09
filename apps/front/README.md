@@ -23,7 +23,7 @@ means a rebuild. See `.env.example`.
 | `PUBLIC_ENV` | `production`: indexable, no underscore routes. `preview`: noindex everywhere, robots.txt `Disallow: /`, and the preview-only `/_style` and `/_teaser` pages. |
 | `PUBLIC_SITE_URL` | The public origin. Canonical URLs, the sitemap and OG tags use it. |
 | `PUBLIC_TEASER` | `true`: teaser mode (ADR 0012). Only `/` (the teaser) is served; every other page is a 404 and the sitemap lists only `/`. Ignored on previews, which always show the full site and the teaser at `/_teaser`. |
-| `PUBLIC_ALT_URL` | The easter egg's target, the alt site (ADR 0008). Baked in encoded (reversed, XOR'd char codes), never as a plain string. |
+| `PUBLIC_ALT_URL` | The alt site: the easter egg's and the crossover's target (ADRs 0008, 0017). Baked in encoded (reversed, XOR'd char codes), never as a plain string. |
 | `PUBLIC_SITE_NAME` | The site name, in titles and `og:site_name`. |
 | `CMS_URL` | The Strapi origin (vinski.xyz). Read at build time only. |
 | `CMS_TOKEN` | A read-only Strapi API token. Never reaches the browser. |
@@ -54,6 +54,11 @@ without its content. Content changes reach the site with the next build.
   and it flips to the alt site's name and links there (`rel="nofollow noreferrer"`). The URL is
   decoded in the browser only after the trigger, so the HTML never contains it: after a build,
   `grep -r <alt hostname> build/` finds nothing. A `class` prop lets a page restyle it.
+- `src/lib/components/Crossover.svelte`: pull past the end of any page to cross to the alt site
+  (ADR 0017, `@vindotski/crossover`). A bar fills at the bottom in the alt site's red, with a label,
+  then the red floods up. The root layout renders it once, and its `<head>` script plays the reveal
+  when arriving from the alt site.
+- `src/lib/alt-url.ts`: decodes `PUBLIC_ALT_URL` in the browser, for the wordmark and the crossover.
 - `src/lib/components/LinkIcon.svelte`: an icon per profile link (mail for `mailto:`, the GitHub and
   LinkedIn marks), from `@lucide/svelte` and inline SVG.
 - `src/lib/cms.ts`: the CMS client, used from `+page.server.ts` files (build time). It's server-only,
