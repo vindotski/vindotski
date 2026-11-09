@@ -25,3 +25,4 @@ Each record has front matter (`title`, `number`, `status`, `implementation`, `da
 | [17](0017-pull-to-cross.md) | Scrolling past the end of either site carries you to the other, with a color flood | Built; direction superseded by 19 |
 | [18](0018-release-by-fast-forward.md) | `dev` is the default branch; changes go by pull request into `dev`, and a release fast-forwards `main` to `dev` | Built |
 | [19](0019-surface-underground.md) | vin.ski is the light Surface and ski.vin the dark Underground; the light switch is the portal between them | Built |
+| [20](0020-license.md) | The code is AGPL-3.0-only, and Ivan Vinski's content is all rights reserved | Built |
