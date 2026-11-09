@@ -2,6 +2,7 @@
   "name": "cms",
   "version": "0.0.0",
   "private": true,
+  "license": "AGPL-3.0-only",
   "description": "vinski.xyz: the Strapi content source for vin.ski and ski.vin.",
   "scripts": {
     "build": "strapi build",
