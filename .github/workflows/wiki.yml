@@ -20,30 +20,32 @@ concurrency:
 
 jobs:
   sync:
+    # The wiki mirrors what's released: main only, also when run by hand (ADRs 0001, 0018).
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-24.04
     timeout-minutes: 5
+    env:
+      REPO: ${{ github.repository }}
+      SHA: ${{ github.sha }}
+      TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
-      # Plain git instead of actions/checkout: no third-party action to pin.
+      # Plain git instead of actions/checkout: no third-party action to pin. The
+      # token goes through a credential helper, so it's never written into a URL
+      # or a .git/config.
       - name: Check out the repository and its wiki
-        env:
-          TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          REPO: ${{ github.repository }}
-          SHA: ${{ github.sha }}
         run: |
+          auth=(-c credential.helper= -c 'credential.helper=!f() { echo username=x-access-token; echo "password=$TOKEN"; }; f')
           git init -q repo
-          git -C repo fetch -q --depth 1 "https://x-access-token:${TOKEN}@github.com/${REPO}.git" "${SHA}"
+          git "${auth[@]}" -C repo fetch -q --depth 1 "https://github.com/${REPO}.git" "${SHA}"
           git -C repo checkout -q FETCH_HEAD
-          git clone -q --depth 1 "https://x-access-token:${TOKEN}@github.com/${REPO}.wiki.git" wiki
+          git "${auth[@]}" clone -q --depth 1 "https://github.com/${REPO}.wiki.git" wiki
 
       - name: Write the wiki pages
         env:
           REPO_URL: ${{ github.server_url }}/${{ github.repository }}
-          BRANCH: ${{ github.ref_name }}
-        run: node repo/scripts/sync-wiki.mjs repo/docs wiki "${REPO_URL}" "${BRANCH}"
+        run: node repo/scripts/sync-wiki.mjs repo/docs wiki "${REPO_URL}" main
 
       - name: Push them
-        env:
-          SHA: ${{ github.sha }}
         run: |
           cd wiki
           git add -A
@@ -54,4 +56,4 @@ jobs:
           git -c user.name="github-actions[bot]" \
               -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
               commit -q -m "Sync from docs/ at ${SHA}"
-          git push -q
+          git -c credential.helper= -c 'credential.helper=!f() { echo username=x-access-token; echo "password=$TOKEN"; }; f' push -q

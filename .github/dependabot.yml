@@ -1,0 +1,26 @@
+# Dependency updates as pull requests into dev, never sooner than 14 days after
+# a release (ADR 0010: exact pins, at least two weeks old).
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    target-branch: dev
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 14
+    groups:
+      actions:
+        patterns: ["*"]
+
+  - package-ecosystem: npm
+    directory: /
+    target-branch: dev
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 14
+    versioning-strategy: increase
+    groups:
+      minor-and-patch:
+        update-types: [minor, patch]
