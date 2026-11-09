@@ -27,6 +27,7 @@ See `.env.example`. Static pages read their env when they're prerendered at buil
 |---|---|
 | `PUBLIC_ENV` | `production`, or `preview` (dev.ski.vin), which turns on `/_style`. |
 | `SITE_NAME` | The page title. |
+| `FRONT_URL` | vin.ski's origin. Pulling past the end of ski.vin crosses there (ADR 0017). |
 | `CMS_URL` | The Strapi origin (vinski.xyz). |
 | `CMS_TOKEN` | A read-only Strapi API token. Server-only. |
 | `CMS_STATUS` | `published` (production) or `draft` (previews: unpublished changes too). |
@@ -47,6 +48,9 @@ Pages refresh on their next visit; without the webhook they refresh hourly.
 
 - `app/layout.tsx`: renders `<html class="dark">`, because ski.vin defaults to dark (ADR 0016), and puts
   the color-mode `<head>` script (from `@vindotski/theme/color-mode`) before anything paints.
+- `components/crossover.tsx`: pull past the end of any page to cross to vin.ski (ADR 0017,
+  `@vindotski/crossover`). A bar fills in vin.ski's blue, then the blue floods up. The layout
+  renders it with `FRONT_URL`, and its `<head>` script plays the reveal when arriving from vin.ski.
 - `components/color-mode-toggle.tsx`: the toggle fixed in the top-right corner. It cycles
   system → light → dark, and the choice is kept in `localStorage`.
 - `app/%5Fstyle/`: `/_style`, the theme check (Next.js treats `_folders` as private, hence `%5F`).

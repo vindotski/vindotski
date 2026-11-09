@@ -24,6 +24,10 @@ export const env = {
   get SITE_NAME() {
     return required("SITE_NAME");
   },
+  /** vin.ski's origin, where pulling past the end of ski.vin leads (ADR 0017). */
+  get FRONT_URL() {
+    return new URL(required("FRONT_URL")).origin;
+  },
   /** The Strapi origin, e.g. https://vinski.xyz. */
   get CMS_URL() {
     return required("CMS_URL");

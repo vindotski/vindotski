@@ -9,6 +9,7 @@
     "check": "next typegen && tsc --noEmit"
   },
   "dependencies": {
+    "@vindotski/crossover": "workspace:*",
     "@vindotski/theme": "workspace:*",
     "class-variance-authority": "0.7.1",
     "cn": "0.5.0",
