@@ -27,8 +27,10 @@ const required = (name: string) => (value: string | undefined) => {
 };
 
 /*
- * Every variable is static: it's read at build time and baked into the
- * prerendered pages, so changing one means a rebuild.
+ * The PUBLIC_* variables are static: read at build time and baked into the
+ * prerendered pages, so changing one means a rebuild. The CMS_* variables are
+ * dynamic: read from the environment while prerendering, never written into
+ * the build, so the token can't leak through a build artifact.
  */
 export const variables = defineEnvVars({
 	PUBLIC_ENV: {
@@ -68,20 +70,15 @@ export const variables = defineEnvVars({
 		schema: required('PUBLIC_SITE_NAME')
 	},
 
-	// The CMS (vinski.xyz), read at build time only: these never reach the browser.
+	// The CMS, read while prerendering only: never inlined, never in the browser.
+	// Which content it reads follows PUBLIC_ENV (src/lib/cms.ts): published in
+	// production, drafts on previews.
 	CMS_URL: {
-		static: true,
 		description: 'The Strapi origin, e.g. https://vinski.xyz.',
 		schema: url('CMS_URL')
 	},
 	CMS_TOKEN: {
-		static: true,
-		description: 'A read-only Strapi API token for this site.',
+		description: 'A read-only Strapi API token for this site (the preview token on previews).',
 		schema: required('CMS_TOKEN')
-	},
-	CMS_STATUS: {
-		static: true,
-		description: '`published` (production) or `draft` (previews, which include unpublished changes).',
-		schema: oneOf('CMS_STATUS', ['published', 'draft'] as const)
 	}
 });

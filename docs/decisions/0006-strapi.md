@@ -4,7 +4,7 @@ number: 6
 status: accepted
 implementation: partly-built
 date: 2026-11-09
-notes: "Strapi and the three content types run locally. The vinski.xyz deploy and the preview tokens come with stage 2."
+notes: "Strapi and the three content types run locally. The vinski.xyz deploy and the preview tokens come with stage 2. CMS_STATUS was later dropped: published or draft content now follows PUBLIC_ENV, so the two can't disagree."
 ---
 
 ## Context
