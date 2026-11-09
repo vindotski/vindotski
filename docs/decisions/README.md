@@ -21,6 +21,7 @@ Each record has front matter (`title`, `number`, `status`, `implementation`, `da
 | [13](0013-environments.md) | Two environments from two branches: `main` deploys production, `dev` deploys previews | Partly built; promotion superseded by 18 |
 | [14](0014-cloudflare-edge.md) | Cloudflare sits in front, optionally: a Tunnel, and edge caching tuned per app | Designed |
 | [15](0015-infrastructure-as-code.md) | All Hetzner and Cloudflare configuration is OpenTofu, with encrypted state in R2 | Designed |
-| [16](0016-geist-and-color-modes.md) | Geist and Geist Mono replace Space Grotesk; both sites have a color-mode toggle, vin.ski defaults to the system and ski.vin to dark | Built |
-| [17](0017-pull-to-cross.md) | Scrolling past the end of either site carries you to the other, with a color flood | Built |
+| [16](0016-geist-and-color-modes.md) | Geist and Geist Mono replace Space Grotesk; both sites have a color-mode toggle, vin.ski defaults to the system and ski.vin to dark | Built; toggle superseded by 19 |
+| [17](0017-pull-to-cross.md) | Scrolling past the end of either site carries you to the other, with a color flood | Built; direction superseded by 19 |
 | [18](0018-release-by-fast-forward.md) | `dev` is the default branch; changes go by pull request into `dev`, and a release fast-forwards `main` to `dev` | Built |
+| [19](0019-surface-underground.md) | vin.ski is the light Surface and ski.vin the dark Underground; the light switch is the portal between them | Built |

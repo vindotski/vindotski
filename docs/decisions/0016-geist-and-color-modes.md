@@ -5,7 +5,8 @@ status: accepted
 implementation: built
 date: 2026-11-09
 supersedes: [7]
-notes: "Replaces only ADR 7's font. The shared preset and per-site brand colors stay."
+superseded_by: [19]
+notes: "Replaces only ADR 7's font. The shared preset and per-site brand colors stay. Since ADR 19, the color-mode toggle is gone: vin.ski is always light, and ski.vin always dark. The fonts stand."
 ---
 
 ## Context

@@ -27,6 +27,9 @@ pnpm --filter <front|back|cms> check
 ## Hard rules
 
 - **Never edit the root `README.md`.** It is Ivan's GitHub profile README, not project docs.
+- **Surface / Underground (ADR 19, `docs/concept.md`):** vin.ski is always light, and ski.vin always dark.
+  There's no color-mode toggle: the Moon and Sun switches are the portals between the sites. Keep new
+  work true to the concept (finished work up top, the unpolished below).
 - **Nothing is hardcoded.** Domains, URLs and tokens come from env; each app keeps a `.env.example`.
 - **ski.vin stays unlisted:** the noindex `X-Robots-Tag` header and robots meta on every response,
   no sitemap, no OG/Twitter metadata. robots.txt blocks AI bots only, never `Disallow: /` for search engines.
