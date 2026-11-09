@@ -18,6 +18,7 @@ Each app reads its settings from `.env`. Copy its `.env.example` to begin. The s
 
 - Replace the domains, tokens and names in the `.env` files and `terraform.tfvars`. None of them appear in the code ([3](decisions/0003-nothing-hardcoded.md)).
 - Leave the root `README.md` alone, or replace it with your own: on the owner's repository, it's the GitHub profile README.
+- The code is yours to reuse under the AGPL, version 3 only. The content about Ivan Vinski isn't: replace the profile, the portrait, the wordmarks and the CMS content with your own ([NOTICE](../NOTICE), [20](decisions/0020-license.md)).
 
 ## One-time setup (designed, not built yet)
 

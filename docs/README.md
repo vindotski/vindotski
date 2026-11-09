@@ -22,3 +22,7 @@ Both sites look the same, apart from their brand color, and the main site hides 
 ## About these docs
 
 This folder is the source of the repository's GitHub wiki. Every push to `main` mirrors it there ([decision 1](decisions/0001-adrs-and-wiki.md)), so edit the files here, not in the wiki.
+
+## License
+
+The code is under the [GNU AGPL, version 3 only](../LICENSE) (`AGPL-3.0-only`). Content about Ivan Vinski (his name, likeness, writing, art, the vin.ski and ski.vin names, and everything in the CMS) is all rights reserved. See [NOTICE](../NOTICE) and [decision 20](decisions/0020-license.md).
