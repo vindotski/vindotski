@@ -1,15 +1,7 @@
 import type { Core } from '@strapi/strapi';
 
-const allowedMediaTypes = [
-  'image/*',
-  'video/*',
-  'audio/*',
-  'application/pdf',
-  'application/msword',
-  'application/vnd.openxmlformats-officedocument.*',
-  'text/plain',
-  'text/csv',
-];
+// The content types only take images, video and audio.
+const allowedMediaTypes = ['image/*', 'video/*', 'audio/*'];
 
 const deniedTypes = [
   'image/svg+xml',
@@ -24,16 +16,10 @@ const deniedTypes = [
 ];
 
 const config = ({ env }: Core.Config.Shared.ConfigParams): Core.Config.Plugin => ({
-  'users-permissions': {
-    config: {
-      jwtManagement: 'refresh',
-      sessions: {
-        httpOnly: true,
-      },
-    },
-  },
   upload: {
     config: {
+      // 50 MB per file (Strapi's default is 1 GB); strapi::body enforces the same.
+      sizeLimit: 50 * 1024 * 1024,
       security: {
         allowedTypes: allowedMediaTypes,
         deniedTypes,
