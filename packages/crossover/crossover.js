@@ -6,7 +6,7 @@ const ARRIVE_CLASS = 'crossover-arrive';
 
 const WHEEL_DISTANCE = 900; // px of armed wheel delta for a full pull
 const TOUCH_DISTANCE = 180; // px of upward drag for a full pull
-const KEY_STEP = 0.25; // per ↓ / PageDown / Space at the end
+const KEY_STEP = 0.25; // per separate ↓ / PageDown / Space press at the end (not auto-repeat)
 const ARM_GAP_MS = 150; // a pause this long between wheel events arms the pull...
 const SETTLE_MS = 350; // ...and so does resting at the end this long, mid-stream
 const IDLE_MS = 400; // no input this long resets the pull (the bar eases back in CSS)
@@ -108,7 +108,9 @@ export function attachCrossover({ getUrl, onProgress = () => {}, onCross = cross
 
   /** @param {KeyboardEvent} event */
   const onKey = (event) => {
-    if (crossed || event.defaultPrevented || event.altKey || event.ctrlKey || event.metaKey) return;
+    // A held key auto-repeats: someone holding ↓ to scroll down would be carried
+    // off as soon as they reach the end. Only separate presses count.
+    if (crossed || event.repeat || event.defaultPrevented || event.altKey || event.ctrlKey || event.metaKey) return;
     if (!['ArrowDown', 'PageDown', ' '].includes(event.key)) return;
     const target = /** @type {HTMLElement | null} */ (event.target);
     if (target?.closest('input, textarea, select, button, [contenteditable]')) return;

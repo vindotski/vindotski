@@ -19,7 +19,7 @@ vin.ski and ski.vin mirror each other, and the owner wants moving between them t
   - `attachCrossover` turns wheel, touch and keyboard input at the end of the page into progress from 0 to 1.
     - **Wheel:** the pull arms after a pause of at least 150ms between wheel events at the end, or once the page has rested at the end for 350ms. A trackpad's momentum that runs into the bottom doesn't cross by accident, and a scroll that reaches the end and pushes on still can.
     - **Touch:** dragging up from the end.
-    - **Keyboard:** ↓, PageDown or Space at the end, a quarter each.
+    - **Keyboard:** ↓, PageDown or Space at the end, a quarter per separate press. Auto-repeat from a held key doesn't count.
     - Progress eases back to 0 when the pull stops.
   - `crossTo` floods the screen in the destination's brand color (`--crossover-color`) and then navigates with `#crossover`.
   - `arriveScript`, inline in `<head>`, sees `#crossover`, removes it from the URL, and lets `crossover.css` cover the first paint in the arriving site's own primary and slide it away. The two halves meet in the same color.
