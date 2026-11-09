@@ -4,30 +4,16 @@
 @import '@vindotski/theme/theme.css';
 @import '@vindotski/crossover/crossover.css';
 
-/* vin.ski's brand color: blue. Everything else comes from @vindotski/theme.
-   Same color-mode rules as the theme (ADR 0016): system by default, or the
-   visitor's `light` / `dark` class on <html>. */
+/* vin.ski is the Surface: always light (<html class="light">, ADR 0019), with a
+   blue brand color. Everything else comes from @vindotski/theme. */
 :root {
 	--primary: oklch(0.546 0.245 262.881);
 	--primary-foreground: oklch(0.985 0 0);
 	--ring: oklch(0.546 0.245 262.881);
 }
 
-@media (prefers-color-scheme: dark) {
-	:root:not(.light) {
-		--primary: oklch(0.623 0.214 259.815);
-		--primary-foreground: oklch(0.985 0 0);
-		--ring: oklch(0.623 0.214 259.815);
-	}
-}
-
-:root.dark {
-	--primary: oklch(0.623 0.214 259.815);
-	--primary-foreground: oklch(0.985 0 0);
-	--ring: oklch(0.623 0.214 259.815);
-}
-
-/* The pull-past-the-end crossover floods in the alt site's red (ADR 0017). */
+/* Going down to the alt site: its darkness rises, led by its red (ADR 0019). */
 :root {
-	--crossover-color: oklch(0.637 0.237 25.331);
+	--crossover-color: oklch(0.145 0 0);
+	--crossover-accent: oklch(0.637 0.237 25.331);
 }

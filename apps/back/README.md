@@ -27,7 +27,7 @@ See `.env.example`. Static pages read their env when they're prerendered at buil
 |---|---|
 | `PUBLIC_ENV` | `production`, or `preview` (dev.ski.vin), which turns on `/_style`. |
 | `SITE_NAME` | The page title. |
-| `FRONT_URL` | vin.ski's origin. Pulling past the end of ski.vin crosses there (ADR 0017). |
+| `FRONT_URL` | vin.ski's origin: where the Sun and pulling past the top lead (ADRs 0017, 0019). |
 | `CMS_URL` | The Strapi origin (vinski.xyz). |
 | `CMS_TOKEN` | A read-only Strapi API token. Server-only. |
 | `CMS_STATUS` | `published` (production) or `draft` (previews: unpublished changes too). |
@@ -46,17 +46,17 @@ Pages refresh on their next visit; without the webhook they refresh hourly.
 
 ## Layout
 
-- `app/layout.tsx`: renders `<html class="dark">`, because ski.vin defaults to dark (ADR 0016), and puts
-  the color-mode `<head>` script (from `@vindotski/theme/color-mode`) before anything paints.
-- `components/crossover.tsx`: pull past the end of any page to cross to vin.ski (ADR 0017,
-  `@vindotski/crossover`). A bar fills in vin.ski's blue, then the blue floods up. The layout
-  renders it with `FRONT_URL`, and its `<head>` script plays the reveal when arriving from vin.ski.
-- `components/color-mode-toggle.tsx`: the toggle fixed in the top-right corner. It cycles
-  system → light → dark, and the choice is kept in `localStorage`.
+- `app/layout.tsx`: renders `<html class="dark">`, because ski.vin is the Underground and always
+  dark (ADR 0019, `docs/concept.md`). Its `<head>` script plays the reveal when arriving from vin.ski.
+- `components/portal-switch.tsx`: the Sun ("Lights on"), fixed in the top-right corner. It's the way
+  up to vin.ski: daylight pours in from above, led by vin.ski's blue.
+- `components/crossover.tsx`: pull past the **top** of any page, like a pull-to-refresh, to go up to
+  vin.ski (ADRs 0017, 0019, `@vindotski/crossover` with `edge: "top"`). A bar fills along the top.
+  The browser's own pull-to-refresh is off on ski.vin.
 - `app/%5Fstyle/`: `/_style`, the theme check (Next.js treats `_folders` as private, hence `%5F`).
   A 404 unless `PUBLIC_ENV=preview`.
 - `components/ui/`: shadcn/ui components (`components.json`, style `radix-vega`). The theme is
-  `@vindotski/theme`; `app/globals.css` only sets the brand color (`--primary`, `--ring`): red in every mode.
+  `@vindotski/theme`; `app/globals.css` sets the brand color (`--primary`, `--ring`, red) and the crossover's colors (vin.ski's white and blue).
 - `app/shadcn.css`: shadcn's Tailwind helpers, vendored from `shadcn@4.22.1`, because the npm
   package is the whole CLI. Update it together with the components.
 

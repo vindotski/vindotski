@@ -5,7 +5,7 @@
     "singularName": "fragment",
     "pluralName": "fragments",
     "displayName": "Fragment",
-    "description": "Short, loose pieces for ski.vin."
+    "description": "Pieces of the Underground (ski.vin): process, notes, art, music, photos, unpolished projects."
   },
   "options": {
     "draftAndPublish": true
@@ -19,6 +19,19 @@
     "slug": {
       "type": "uid",
       "targetField": "title",
+      "required": true
+    },
+    "kind": {
+      "type": "enumeration",
+      "enum": [
+        "process",
+        "note",
+        "art",
+        "music",
+        "photo",
+        "project"
+      ],
+      "default": "process",
       "required": true
     },
     "body": {

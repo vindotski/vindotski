@@ -37,10 +37,15 @@ export type Project = {
   order: number;
 };
 
+/** What a fragment is (ADR 0019): the Underground's kinds of things. */
+export type FragmentKind = "process" | "note" | "art" | "music" | "photo" | "project";
+
 export type Fragment = {
   documentId: string;
   title: string;
   slug: string;
+  /** Null for fragments created before `kind` existed. */
+  kind: FragmentKind | null;
   media: Media[] | null;
 };
 

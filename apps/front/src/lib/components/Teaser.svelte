@@ -1,13 +1,13 @@
 <!--
 	The teaser: what `/` shows in teaser mode (PUBLIC_TEASER=true), and what
 	previews show at /_teaser. Indexable: name, headline, links. Everything
-	comes from the Strapi profile. It starts on the system color mode, and the
-	toggle in the corner switches it (ADR 0016).
+	comes from the Strapi profile. It's always light (the Surface, ADR 0019),
+	and the moon in the corner is the way down.
 	The eyebrow holds the wordmark, so the easter egg (ADR 0008) lives here too.
 -->
 <script lang="ts">
 	import type { Profile } from '#lib/cms.js';
-	import ColorModeToggle from '#lib/components/ColorModeToggle.svelte';
+	import PortalSwitch from '#lib/components/PortalSwitch.svelte';
 	import LinkIcon from '#lib/components/LinkIcon.svelte';
 	import Wordmark from '#lib/components/Wordmark.svelte';
 	import { Button } from '#lib/components/ui/button/index.js';
@@ -25,7 +25,7 @@
 </script>
 
 <main class="bg-background text-foreground relative min-h-svh overflow-hidden">
-	<ColorModeToggle class="absolute top-4 right-4" />
+	<PortalSwitch class="absolute top-4 right-4" />
 
 	<section
 		class="mx-auto grid min-h-svh max-w-5xl content-center items-center gap-8 px-6 pt-12 pb-20 md:grid-cols-[1fr_auto] md:gap-12"

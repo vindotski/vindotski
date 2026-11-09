@@ -10,8 +10,8 @@ apps/
   back/    Next.js (App Router)   → ski.vin    online, never listed
   cms/     Strapi 5 + Postgres    → vinski.xyz admin /admin, API /api
 packages/
-  theme/     @vindotski/theme: shadcn tokens and color modes shared by both sites
-  crossover/ @vindotski/crossover: pull past the end to cross to the other site
+  theme/     @vindotski/theme: shadcn tokens shared by both sites
+  crossover/ @vindotski/crossover: the way between the sites, by switch or by pulling past an edge
 infra/
   hetzner/ cloudflare/ bootstrap/ stack/   (designed, not built yet)
 ```
@@ -19,7 +19,7 @@ infra/
 - **One look:** both sites use Tailwind v4 and shadcn (shadcn-svelte for front, shadcn/ui for back). They import the same `packages/theme/theme.css` and override only `--primary` and `--ring` ([7](decisions/0007-shared-theme.md)).
 - **front:** every page is prerendered, with a canonical URL, Open Graph tags, JSON-LD and a sitemap ([4](decisions/0004-front-sveltekit.md)). `PUBLIC_TEASER=true` reduces it to a teaser at `/` ([12](decisions/0012-teaser-mode.md)).
 - **back:** every response carries `X-Robots-Tag: noindex`. It has no sitemap and no link previews, and its robots.txt blocks AI bots ([5](decisions/0005-back-never-listed.md)).
-- **Crossing between the sites:** pulling past the end of either site floods the screen in the other's brand color and carries you there ([17](decisions/0017-pull-to-cross.md)). The wordmark on vin.ski also flips to ski.vin after three clicks ([8](decisions/0008-easter-egg.md)). vin.ski's HTML never contains ski.vin's URL; it's decoded in the browser.
+- **Surface and Underground:** vin.ski is always light, and ski.vin always dark ([concept](concept.md), [19](decisions/0019-surface-underground.md)). The Moon on vin.ski, or pulling past its bottom, goes down: darkness rises. The Sun on ski.vin, or pulling past its top, comes up: light pours in ([17](decisions/0017-pull-to-cross.md)). The wordmark on vin.ski also flips to ski.vin after three clicks ([8](decisions/0008-easter-egg.md)). vin.ski's HTML never contains ski.vin's URL; it's decoded in the browser.
 
 ## Content
 

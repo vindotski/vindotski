@@ -32,7 +32,12 @@ export default async function Home() {
           <h2 className="font-heading text-xl font-medium">Fragments</h2>
           <ul className="flex flex-col gap-2">
             {fragments.map((fragment) => (
-              <li key={fragment.documentId}>{fragment.title}</li>
+              <li key={fragment.documentId} className="flex items-baseline gap-3">
+                {fragment.kind && (
+                  <span className="font-mono text-xs tracking-wider text-muted-foreground uppercase">{fragment.kind}</span>
+                )}
+                <span>{fragment.title}</span>
+              </li>
             ))}
           </ul>
         </section>

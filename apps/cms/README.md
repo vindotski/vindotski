@@ -24,7 +24,7 @@ which writes the same files), never by hand in the database.
 |---|---|---|
 | `profile` | single | The person behind both sites: name, headline, role, availability, bio, location, avatar, links. |
 | `project` | collection | Title, slug, summary, body, URLs, cover, `site` (`front`, `back` or `both`), order. |
-| `fragment` | collection | Short, loose pieces for ski.vin: title, slug, body, media. |
+| `fragment` | collection | Pieces of the Underground (ski.vin): title, slug, `kind` (`process`, `note`, `art`, `music`, `photo` or `project`), body, media. |
 | `shared.link` | component | A label and a URL. |
 
 All three have drafts. Production sites read `status=published`; previews read `status=draft`.

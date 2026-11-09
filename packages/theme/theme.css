@@ -17,8 +17,9 @@
 @import "@fontsource-variable/geist";
 @import "@fontsource-variable/geist-mono";
 
-/* Color modes (ADR 0016). <html> has no class for "system" (prefers-color-scheme
-   decides), or `light` / `dark` when the visitor picked one (color-mode.js).
+/* Color modes (ADRs 0016, 0019). A `light` or `dark` class on <html> fixes the
+   mode: vin.ski renders `light`, ski.vin `dark`. With neither, the system's
+   prefers-color-scheme decides, for template users who want that.
    The `dark:` variant follows the same rule. */
 @custom-variant dark {
   &:where(.dark, .dark *) {
@@ -102,7 +103,7 @@
   }
 }
 
-/* The same dark tokens, for a chosen `dark` mode. Keep both blocks in sync. */
+/* The same dark tokens, for a `dark` class. Keep both blocks in sync. */
 .dark {
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);

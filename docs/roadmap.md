@@ -24,6 +24,10 @@ The order things are built in. Each step is one change that leaves every check g
 
 - [x] **Pull past the end to cross** (17): `@vindotski/crossover` on both sites, with a color flood out and a reveal in. The public role is now Creative Technologist on both.
 
+- [x] **Surface / Underground** (19): the concept (`docs/concept.md`). vin.ski is always light and ski.vin always dark. The Moon and Sun switches are the portals, vin.ski pulls past the bottom and ski.vin past the top, and floods are light and dark. Fragments have a `kind`.
+
+**Next for the Underground:** a layout per fragment kind (galleries for `photo` and `art`, a player for `music`, long-form `note`s, `process` timelines), and its denser, mono-heavy look.
+
 **Decisions to make:** the final brand colors and any further design (with the designer). Optional `.mcp.json` servers (Svelte, shadcn, Next.js devtools).
 
 **Not in this stage:** Docker images, servers, DNS and deploys.

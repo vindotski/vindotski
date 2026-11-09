@@ -2,7 +2,6 @@
 	import './layout.css';
 	import { onMount } from 'svelte';
 	import { arriveScript } from '@vindotski/crossover';
-	import { colorModeScript } from '@vindotski/theme/color-mode';
 	import favicon from '#lib/assets/favicon.svg';
 	import Crossover from '#lib/components/Crossover.svelte';
 	import { isPreview } from '#lib/env.js';
@@ -15,9 +14,7 @@
 </script>
 
 <svelte:head>
-	<!-- Applies the stored color mode before the first paint; vin.ski defaults to system. -->
-	{@html `<script>${colorModeScript('system')}</script>`}
-	<!-- Plays the reveal when arriving from the alt site's pull-past-the-end (ADR 0017). -->
+	<!-- Plays the reveal when arriving from the alt site (ADRs 0017, 0019). -->
 	{@html `<script>${arriveScript}</script>`}
 	<link rel="icon" href={favicon} />
 	{#if isPreview}

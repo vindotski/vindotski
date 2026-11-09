@@ -5,7 +5,8 @@ status: accepted
 implementation: built
 date: 2026-11-09
 supersedes: [8]
-notes: "Replaces only ADR 8's \"hidden behind the triple-click\". The wordmark trigger stays, and the URL is still never in vin.ski's HTML."
+superseded_by: [19]
+notes: "Replaces only ADR 8's \"hidden behind the triple-click\". The wordmark trigger stays, and the URL is still never in vin.ski's HTML. Since ADR 19, ski.vin crosses by pulling past the top, and the flood is the destination's background with a line in its primary. The mechanics stand."
 ---
 
 ## Context

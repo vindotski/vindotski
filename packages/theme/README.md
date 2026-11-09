@@ -1,7 +1,7 @@
 # @vindotski/theme
 
 The shared look of vin.ski (`apps/front`) and ski.vin (`apps/back`): shadcn tokens, dark mode,
-the `@theme inline` mapping, radius, font and base layer, in one `theme.css` (ADRs 0007 and 0016).
+the `@theme inline` mapping, radius, font and base layer, in one `theme.css` (ADRs 0007, 0016 and 0019).
 
 It's the shadcn preset `b6RdvRWulu`: style `vega`, base color neutral, no radius, lucide icons. The
 preset decodes to the same config in both the shadcn-svelte and shadcn/ui CLIs. Its Space Grotesk is
@@ -30,19 +30,10 @@ can't be shared across Svelte and React, so each app keeps its own copies; only 
 
 ## Color modes
 
-There are three modes (ADR 0016): `system` leaves `<html>` without a class, so `prefers-color-scheme`
-decides, and `light` or `dark` puts that class on `<html>`. The `dark:` variant and the dark tokens
-follow the same rule. The dark tokens are written twice (the media block and the `.dark` block), so
-keep them in sync. An app's brand override uses the same selectors.
+A `light` or `dark` class on `<html>` fixes the mode. With neither, the system's
+`prefers-color-scheme` decides. The `dark:` variant and the dark tokens follow the same rule. The
+dark tokens are written twice (the media block and the `.dark` block), so keep them in sync.
 
-`@vindotski/theme/color-mode` holds the logic both sites share:
-
-| Export | |
-|---|---|
-| `colorModeScript(default)` | An inline `<head>` script. It applies the stored mode, or the site's default, before the first paint. |
-| `getColorMode(default)` | The mode in use, for a toggle's first render. |
-| `setColorMode(mode)` | Applies a mode, and stores it in `localStorage` (`color-mode`). |
-| `nextColorMode(mode)` | system → light → dark → system. |
-
-vin.ski defaults to `system`. ski.vin defaults to `dark`, and also renders `<html class="dark">`
-so it's dark without JavaScript.
+vin.ski renders `<html class="light">`, and ski.vin `<html class="dark">`: the Surface is always
+light and the Underground always dark (ADR 0019). There's no toggle. A template user who wants the
+system's mode leaves the class out.

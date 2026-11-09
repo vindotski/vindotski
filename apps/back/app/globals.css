@@ -4,19 +4,20 @@
 @import "@vindotski/theme/theme.css";
 @import "@vindotski/crossover/crossover.css";
 
-/* ski.vin's brand color: red, the same in every color mode. Everything else
-   comes from @vindotski/theme. The selectors match the theme's light, system-dark
-   and chosen-dark token blocks, so red wins in all three (ADR 0016). */
+/* ski.vin is the Underground: always dark (<html class="dark">, ADR 0019), with a
+   red brand color. Everything else comes from @vindotski/theme.
+   `:root.dark` matches the specificity of the theme's system-dark block
+   (`:root:not(.light)`), which still applies to <html class="dark"> when the
+   visitor's system is dark; loading later, this wins the tie. */
 :root,
-:root:not(.light),
-.dark {
+:root.dark {
   --primary: oklch(0.637 0.237 25.331);
   --primary-foreground: oklch(0.985 0 0);
   --ring: oklch(0.637 0.237 25.331);
 }
 
-/* The pull-past-the-end crossover floods in vin.ski's blue (its dark-mode
-   shade, since ski.vin is usually dark; ADR 0017). */
+/* Going up to vin.ski: its daylight pours in, led by its blue (ADR 0019). */
 :root {
-  --crossover-color: oklch(0.623 0.214 259.815);
+  --crossover-color: oklch(1 0 0);
+  --crossover-accent: oklch(0.546 0.245 262.881);
 }

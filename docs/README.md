@@ -12,6 +12,7 @@ Both sites look the same, apart from their brand color, and the main site hides 
 
 ## Pages
 
+- [Concept](concept.md): the Surface and the Underground, and how you move between them.
 - [Architecture](architecture.md): how the apps, domains, content and environments fit together.
 - [Getting started](getting-started.md): running it locally.
 - [Roadmap](roadmap.md): what's built, and what's next.
