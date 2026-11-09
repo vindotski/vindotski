@@ -33,7 +33,10 @@ pnpm --filter <front|back|cms> check
 - **vin.ski never contains a ski.vin link in its HTML.** The easter egg builds the link client-side.
 - **vin.ski stays prerenderable.** Teaser mode is a build-time flag; new pages go under `src/routes/(site)/`.
 - **Pin dependencies** exactly, at versions at least two weeks old (`mature-dependency-pins` skill).
-- **Environments:** `main` deploys production; `dev` deploys dev.vin.ski and dev.ski.vin.
+- **Environments:** `main` deploys production; `dev` (the default branch) deploys dev.vin.ski and dev.ski.vin.
+- **Branches (ADR 18):** pull requests always target `dev`. A release fast-forwards `main` to `dev`
+  (`git push origin origin/dev:main`, see `docs/releasing.md`), and only when Ivan asks. Never commit
+  to `main` directly, and never force-push it.
 
 ## Workflow
 

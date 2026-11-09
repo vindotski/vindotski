@@ -37,7 +37,7 @@ Content types: `profile` (single), `project` (with `site`: front, back or both) 
 | `main` | vin.ski | ski.vin | `production` |
 | `dev` | dev.vin.ski | dev.ski.vin | `preview` (basic auth, noindex, `/_style`, `/_teaser`) |
 
-Feature branches go into `dev`, and `dev` goes into `main` ([13](decisions/0013-environments.md)).
+Feature branches go by pull request into `dev`, the default branch. A release fast-forwards `main` to `dev` ([13](decisions/0013-environments.md), [18](decisions/0018-release-by-fast-forward.md); see [Releasing](releasing.md)).
 
 ## Hosting (designed, not built yet)
 

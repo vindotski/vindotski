@@ -15,6 +15,7 @@ Both sites look the same, apart from their brand color, and the main site hides 
 - [Architecture](architecture.md): how the apps, domains, content and environments fit together.
 - [Getting started](getting-started.md): running it locally.
 - [Roadmap](roadmap.md): what's built, and what's next.
+- [Releasing](releasing.md): pull requests into `dev`, and fast-forwarding `main`.
 - [Decisions](decisions/README.md): why it's built this way.
 
 ## About these docs

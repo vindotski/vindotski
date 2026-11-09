@@ -36,7 +36,7 @@ The order things are built in. Each step is one change that leaves every check g
 
 1. [ ] **Bootstrap** (9): `infra/bootstrap` turns any Debian or Ubuntu VPS into a Docker host. *Check:* a fresh VPS passes the bootstrap, and Docker runs under the deploy user.
 2. [ ] **Stack** (9, 13): `infra/stack` with Compose and Caddy, including basic auth on `dev.*`. *Check:* `docker compose up` locally serves all five hosts.
-3. [ ] **Images and deploy workflow** (9, 13): per-branch images and a deploy over SSH. *Check:* a push to `dev` updates only the previews.
+3. [ ] **Images and deploy workflow** (9, 13, 18): per-branch images and a deploy over SSH, triggered by pushes to `dev` (previews) and `main` (production, the fast-forward release). *Check:* a push to `dev` updates only the previews.
 4. [ ] **Hetzner module** (9, 15). *Check:* `tofu apply` creates a server that bootstraps itself.
 5. [ ] **Cloudflare module** (14, 15): zones, DNS, the tunnel, cache rules and settings. *Check:* the first apply's `plan` shows only creates, and every host resolves through the tunnel.
 6. [ ] **Infra CI** (15): plan on pull requests, manual apply. *Check:* a pull request that touches `infra/` shows a plan.
