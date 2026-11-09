@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { arriveScript } from "@vindotski/crossover";
-import { colorModeScript } from "@vindotski/theme/color-mode";
-import { ColorModeToggle } from "@/components/color-mode-toggle";
 import { Crossover } from "@/components/crossover";
+import { PortalSwitch } from "@/components/portal-switch";
 import { env } from "@/lib/env";
 import "./globals.css";
 
@@ -25,17 +24,16 @@ export function generateMetadata(): Metadata {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    // Dark by default (ADR 0016), also without JavaScript. The head script swaps
-    // the class for the visitor's stored choice before the first paint, so React
+    // The Underground: always dark (ADR 0019), also without JavaScript. The
+    // arrival script may add a class to <html> before React hydrates, so React
     // is told not to mind the difference.
     <html lang="en" className="dark h-full antialiased" suppressHydrationWarning>
       <head>
-        <script dangerouslySetInnerHTML={{ __html: colorModeScript("dark") }} />
-        {/* Plays the reveal when arriving from vin.ski's pull-past-the-end (ADR 0017). */}
+        {/* Plays the reveal when arriving from vin.ski (ADRs 0017, 0019). */}
         <script dangerouslySetInnerHTML={{ __html: arriveScript }} />
       </head>
       <body className="flex min-h-full flex-col">
-        <ColorModeToggle className="fixed top-4 right-4 z-50" />
+        <PortalSwitch url={env.FRONT_URL} className="fixed top-4 right-4 z-50" />
         {children}
         <Crossover url={env.FRONT_URL} />
       </body>

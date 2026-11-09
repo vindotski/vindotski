@@ -1,8 +1,9 @@
 <!--
-	Pull past the end of the page to cross to the alt site (ADR 0017). A bar fills
-	at the bottom in the alt site's red, with a label once the pull is underway;
-	at the end, the red floods up and the alt site takes over. The URL is decoded
-	in the browser only, so the prerendered HTML never contains it.
+	Pull past the bottom of the page to go down to the alt site (ADRs 0017,
+	0019). A bar fills along the bottom in the alt site's red, with a label
+	once the pull is underway; at the end, its darkness rises and the alt site
+	takes over. The URL is decoded in the browser only, so the prerendered HTML
+	never contains it.
 -->
 <script lang="ts">
 	import { attachCrossover } from '@vindotski/crossover';
@@ -14,7 +15,11 @@
 
 	onMount(() => {
 		host = new URL(altUrl()).hostname;
-		return attachCrossover({ getUrl: altUrl, onProgress: (value) => (progress = value) });
+		return attachCrossover({
+			getUrl: altUrl,
+			edge: 'bottom',
+			onProgress: (value) => (progress = value)
+		});
 	});
 </script>
 
@@ -25,9 +30,9 @@
 	aria-hidden="true"
 ></div>
 <p
-	class="crossover-label bg-background/80 text-foreground pointer-events-none fixed bottom-14 left-1/2 z-60 -translate-x-1/2 px-2 py-1 font-mono text-xs tracking-wider uppercase backdrop-blur"
+	class="crossover-label bg-background/80 text-foreground px-2 py-1 font-mono text-xs tracking-wider uppercase backdrop-blur"
 	data-show={progress > 0.3 ? '' : undefined}
 	aria-hidden="true"
 >
-	{progress > 0.7 ? `→ ${host}` : 'Keep going'}
+	{progress > 0.7 ? `↓ ${host}` : 'Keep going'}
 </p>
