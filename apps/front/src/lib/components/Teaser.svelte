@@ -15,8 +15,10 @@
 	let { profile }: { profile: Profile } = $props();
 
 	const tickerText = 'Coming soon';
-	// Enough copies to cover a wide screen; the track holds two sets and scrolls by one.
-	const tickerItems = Array.from({ length: 12 });
+	// One set is about 125px per copy, so 32 copies are about 4000px: wider than a 4K or
+	// ultrawide screen. The track holds two sets and scrolls by one, and each set is also
+	// at least as wide as the viewport, so the band never shows a gap.
+	const tickerItems = Array.from({ length: 32 });
 
 	const label = (url: string, fallback: string) =>
 		url.startsWith('mailto:') ? url.slice('mailto:'.length) : fallback;
@@ -85,7 +87,7 @@
 	>
 		<div class="ticker flex w-max font-mono text-xs tracking-wider uppercase">
 			{#each [0, 1] as set (set)}
-				<div class="flex shrink-0">
+				<div class="flex min-w-screen shrink-0 justify-around">
 					{#each tickerItems as _, i (i)}
 						<span class="px-4">{tickerText}</span>
 						<span>·</span>
@@ -97,8 +99,9 @@
 </main>
 
 <style>
+	/* About 38px a second: one set (~4000px) per 105s. */
 	.ticker {
-		animation: ticker 40s linear infinite;
+		animation: ticker 105s linear infinite;
 	}
 
 	@keyframes ticker {
