@@ -1,0 +1,129 @@
+# Checks every pull request into dev, and dev itself (docs/releasing.md).
+# Builds run against scripts/mock-cms.mjs, since there's no Strapi in CI, and
+# use placeholder domains: nothing here is the owner's real configuration.
+name: CI
+
+on:
+  pull_request:
+    branches: [dev]
+  push:
+    branches: [dev]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  PNPM_VERSION: 12.4.1 # the root package.json's packageManager
+  CMS_URL: http://localhost:4000
+  CMS_TOKEN: ci-token
+  CMS_STATUS: published
+
+jobs:
+  docs:
+    name: Docs
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+      - name: Links and ADRs
+        run: node scripts/check-docs.mjs
+      - name: Wiki sync, dry run
+        run: node scripts/sync-wiki.mjs docs "$RUNNER_TEMP/wiki" "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY"
+
+  check:
+    name: Type check
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+      - run: npm install --global "pnpm@$PNPM_VERSION"
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm check
+
+  build:
+    name: Build the sites
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+      - run: npm install --global "pnpm@$PNPM_VERSION"
+      - run: pnpm install --frozen-lockfile
+
+      - name: Start the mock CMS
+        run: |
+          node scripts/mock-cms.mjs 4000 &
+          for i in $(seq 1 30); do curl -sf -o /dev/null localhost:4000/_health && exit 0; sleep 1; done
+          echo "The mock CMS didn't start." && exit 1
+
+      - name: vin.ski, production build
+        env:
+          PUBLIC_ENV: production
+          PUBLIC_TEASER: "false"
+          PUBLIC_SITE_URL: https://site.example
+          PUBLIC_SITE_NAME: CI
+          PUBLIC_ALT_URL: https://alt.example
+        run: |
+          pnpm --filter front build
+          html=apps/front/build/prerendered/index.html
+          # ADRs 0005, 0008: the alt site's URL never appears in vin.ski's build.
+          if grep -rl 'alt\.example' apps/front/build; then echo "The alt site's URL is in the build."; exit 1; fi
+          # ADR 0019: the Surface is always light.
+          grep -q '<html lang="en" class="light">' "$html" || { echo "<html class=\"light\"> is missing."; exit 1; }
+          # ADR 0004: indexable, with a canonical URL and a sitemap.
+          grep -q '<link rel="canonical" href="https://site.example/"' "$html" || { echo "No canonical URL."; exit 1; }
+          test -f apps/front/build/prerendered/sitemap.xml || { echo "No sitemap."; exit 1; }
+
+      - name: vin.ski, teaser build
+        env:
+          PUBLIC_ENV: production
+          PUBLIC_TEASER: "true"
+          PUBLIC_SITE_URL: https://site.example
+          PUBLIC_SITE_NAME: CI
+          PUBLIC_ALT_URL: https://alt.example
+        run: |
+          pnpm --filter front build
+          # ADR 0012: teaser mode prerenders only /.
+          pages=$(find apps/front/build/prerendered -name '*.html' | sort)
+          echo "$pages"
+          test "$pages" = "apps/front/build/prerendered/index.html" || { echo "Teaser mode built more than /."; exit 1; }
+          if grep -rl 'alt\.example' apps/front/build; then echo "The alt site's URL is in the build."; exit 1; fi
+
+      - name: ski.vin, production build
+        env:
+          PUBLIC_ENV: production
+          SITE_NAME: CI
+          FRONT_URL: https://site.example
+          REVALIDATE_SECRET: ci-secret
+        run: pnpm --filter back build
+
+      - name: ski.vin, never listed
+        env:
+          PUBLIC_ENV: production
+          SITE_NAME: CI
+          FRONT_URL: https://site.example
+          REVALIDATE_SECRET: ci-secret
+          PORT: "3100"
+        run: |
+          pnpm --filter back start &
+          for i in $(seq 1 30); do curl -sf -o /dev/null localhost:3100/ && break; sleep 1; done
+          # ADR 0005: noindex on every response, no sitemap, no link previews.
+          curl -sI localhost:3100/ | grep -qi '^x-robots-tag: noindex' || { echo "No X-Robots-Tag on /."; exit 1; }
+          curl -sI localhost:3100/robots.txt | grep -qi '^x-robots-tag: noindex' || { echo "No X-Robots-Tag on robots.txt."; exit 1; }
+          test "$(curl -s -o /dev/null -w '%{http_code}' localhost:3100/sitemap.xml)" = 404 || { echo "There's a sitemap."; exit 1; }
+          if curl -s localhost:3100/ | grep -q 'og:'; then echo "There are Open Graph tags."; exit 1; fi
+          # ADR 0019: the Underground is always dark.
+          curl -s localhost:3100/ | grep -q 'class="dark' || { echo "<html class=\"dark\"> is missing."; exit 1; }

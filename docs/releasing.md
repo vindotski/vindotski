@@ -21,6 +21,6 @@ Never add `--force`. If the push is refused, `main` has a commit that isn't on `
 
 ## Rules
 
-- Pull requests always target `dev`, merged with a merge commit.
+- Pull requests always target `dev`, merged with a merge commit, once [CI](getting-started.md#checks) is green.
 - Nothing is committed to `main` directly. A ruleset blocks force pushes and deletion.
 - Agents release only when asked.
