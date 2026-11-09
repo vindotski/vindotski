@@ -2,7 +2,6 @@
 	import './layout.css';
 	import { onMount } from 'svelte';
 	import favicon from '#lib/assets/favicon.svg';
-	import Wordmark from '#lib/components/Wordmark.svelte';
 	import { isPreview } from '#lib/env.js';
 	import type { LayoutProps } from './$types';
 
@@ -19,9 +18,5 @@
 		<meta name="robots" content="noindex, nofollow" />
 	{/if}
 </svelte:head>
-
-<header class="mx-auto flex max-w-2xl p-6">
-	<Wordmark />
-</header>
 
 {@render children()}

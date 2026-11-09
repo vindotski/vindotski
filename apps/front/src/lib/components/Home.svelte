@@ -1,9 +1,12 @@
 <!-- The full home page: what `/` shows outside teaser mode. -->
 <script lang="ts">
 	import type { Profile, Project } from '#lib/cms.js';
+	import SiteHeader from '#lib/components/SiteHeader.svelte';
 
 	let { profile, projects }: { profile: Profile; projects: Project[] } = $props();
 </script>
+
+<SiteHeader />
 
 <main class="mx-auto flex min-h-svh max-w-2xl flex-col justify-center gap-8 p-6">
 	<header class="flex flex-col gap-2">

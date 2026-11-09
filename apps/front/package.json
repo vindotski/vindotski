@@ -32,6 +32,7 @@
 		"#lib/*": "./src/lib/*"
 	},
 	"dependencies": {
+		"@lucide/svelte": "1.61.0",
 		"@vindotski/theme": "workspace:*"
 	}
 }

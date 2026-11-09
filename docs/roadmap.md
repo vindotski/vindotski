@@ -19,7 +19,10 @@ The order things are built in. Each step is one change that leaves every check g
 8. [x] **Teaser mode** (12): the `(site)` group and the guard. *Check:* a production teaser build serves only `/`, and a preview build serves the full site plus `/_teaser`.
 9. [x] **Easter egg** (8): `Wordmark.svelte`. *Check:* the trigger flips the wordmark and the link works, and `grep -r ski.vin` finds nothing in the front build output.
 
-**Decisions to make:** the shadcn style, font and the two brand colors (with the designer). Optional `.mcp.json` servers (Svelte, shadcn, Next.js devtools).
+**Also done in this stage:**
+- [x] **Teaser in the spirit of the old vin.ski** (16): Geist and Geist Mono, the profile's `role` and `availability`, an eyebrow with the wordmark, link buttons, the portrait and a ticker. ski.vin is always dark and red, and vin.ski follows the system and stays blue.
+
+**Decisions to make:** the final brand colors and any further design (with the designer). Optional `.mcp.json` servers (Svelte, shadcn, Next.js devtools).
 
 **Not in this stage:** Docker images, servers, DNS and deploys.
 
