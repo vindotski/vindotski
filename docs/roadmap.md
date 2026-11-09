@@ -22,6 +22,8 @@ The order things are built in. Each step is one change that leaves every check g
 **Also done in this stage:**
 - [x] **Teaser in the spirit of the old vin.ski** (16): Geist and Geist Mono, the profile's `role` and `availability`, an eyebrow with the wordmark, link buttons, the portrait and a ticker. Both sites have a color-mode toggle: vin.ski defaults to the system and stays blue, and ski.vin defaults to dark and is red.
 
+- [x] **Pull past the end to cross** (17): `@vindotski/crossover` on both sites, with a color flood out and a reveal in. The public role is now Creative Technologist on both.
+
 **Decisions to make:** the final brand colors and any further design (with the designer). Optional `.mcp.json` servers (Svelte, shadcn, Next.js devtools).
 
 **Not in this stage:** Docker images, servers, DNS and deploys.

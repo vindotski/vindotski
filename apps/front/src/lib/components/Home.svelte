@@ -10,6 +10,9 @@
 
 <main class="mx-auto flex min-h-svh max-w-2xl flex-col justify-center gap-8 p-6">
 	<header class="flex flex-col gap-2">
+		{#if profile.role}
+			<p class="text-muted-foreground font-mono text-xs tracking-wider uppercase">{profile.role}</p>
+		{/if}
 		<h1 class="font-heading text-4xl font-medium">{profile.name}</h1>
 		{#if profile.headline}
 			<p class="text-muted-foreground text-lg">{profile.headline}</p>
