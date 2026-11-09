@@ -2,6 +2,7 @@
 @import 'tw-animate-css';
 @import 'shadcn-svelte/tailwind.css';
 @import '@vindotski/theme/theme.css';
+@import '@vindotski/crossover/crossover.css';
 
 /* vin.ski's brand color: blue. Everything else comes from @vindotski/theme.
    Same color-mode rules as the theme (ADR 0016): system by default, or the
@@ -24,4 +25,9 @@
 	--primary: oklch(0.623 0.214 259.815);
 	--primary-foreground: oklch(0.985 0 0);
 	--ring: oklch(0.623 0.214 259.815);
+}
+
+/* The pull-past-the-end crossover floods in the alt site's red (ADR 0017). */
+:root {
+	--crossover-color: oklch(0.637 0.237 25.331);
 }
