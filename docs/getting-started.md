@@ -7,9 +7,9 @@ You need Node and pnpm (versions in `.nvmrc` and `package.json`) and Docker for 
 ```bash
 pnpm install
 pnpm --filter cms db:up    # local Postgres in Docker
-pnpm --filter cms dev      # Strapi on localhost:1337/admin
-pnpm --filter front dev    # vin.ski on localhost:5173
-pnpm --filter back dev     # ski.vin on localhost:3000
+pnpm --filter cms dev      # Strapi on localhost:3000/admin
+pnpm --filter front dev    # vin.ski on localhost:3001
+pnpm --filter back dev     # ski.vin on localhost:3002
 ```
 
 Each app reads its settings from `.env`. Copy its `.env.example` to begin. The sites need an API token from Strapi (Settings → API Tokens) in `CMS_TOKEN`, and the front build fails without one.

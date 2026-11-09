@@ -1,0 +1,35 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "cms",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": [
+        "--filter",
+        "cms",
+        "dev"
+      ],
+      "port": 3000
+    },
+    {
+      "name": "front",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": [
+        "--filter",
+        "front",
+        "dev"
+      ],
+      "port": 3001
+    },
+    {
+      "name": "back",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": [
+        "--filter",
+        "back",
+        "dev"
+      ],
+      "port": 3002
+    }
+  ]
+}

@@ -8,7 +8,7 @@ source for both vin.ski and ski.vin (ADR 0006).
 ```bash
 cp .env.example .env            # then fill in the secrets and the database password
 pnpm --filter cms db:up         # local Postgres (docker-compose.yml), on 127.0.0.1:$DATABASE_PORT
-pnpm --filter cms dev           # http://localhost:1337/admin
+pnpm --filter cms dev           # http://localhost:3000/admin
 pnpm --filter cms build && pnpm --filter cms start
 pnpm --filter cms db:down
 ```

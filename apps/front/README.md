@@ -7,9 +7,9 @@ The main site: SvelteKit, fully prerendered and built for search (ADR 0004). It'
 
 ```bash
 cp .env.example .env
-pnpm --filter front dev       # http://localhost:5173
+pnpm --filter front dev       # http://localhost:3001
 pnpm --filter front build     # prerenders into build/
-pnpm --filter front start     # serves build/ on $PORT (default 3000)
+pnpm --filter front start     # serves build/ on $PORT (default 3001)
 pnpm --filter front check     # svelte-check
 ```
 

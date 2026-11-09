@@ -13,7 +13,7 @@ The alt site: Next.js (App Router), online but never listed (ADR 0005).
 
 ```bash
 cp .env.example .env
-pnpm --filter back dev        # http://localhost:3000
+pnpm --filter back dev        # http://localhost:3002
 pnpm --filter back build
 pnpm --filter back start
 pnpm --filter back check      # next typegen + tsc
