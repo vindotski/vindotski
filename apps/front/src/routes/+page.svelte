@@ -8,18 +8,26 @@
 
 	let { data }: PageProps = $props();
 	const { profile, projects } = $derived(data);
+
+	// Profiles elsewhere (LinkedIn, GitHub): web links only, not mailto:.
+	const profileUrls = $derived(
+		profile.links.map((link) => link.url).filter((url) => /^https?:\/\//.test(url))
+	);
 </script>
 
 <Seo
 	description={profile.headline ?? profile.name}
 	path="/"
 	type="profile"
+	image={profile.avatar?.url}
 	jsonLd={{
 		'@type': 'Person',
 		name: profile.name,
-		jobTitle: profile.headline ?? undefined,
+		jobTitle: profile.role ?? undefined,
+		description: profile.headline ?? undefined,
+		image: profile.avatar?.url,
 		url: PUBLIC_SITE_URL,
-		sameAs: profile.links.map((link) => link.url)
+		sameAs: profileUrls
 	}}
 />
 

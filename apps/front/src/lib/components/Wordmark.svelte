@@ -6,6 +6,7 @@
 <script lang="ts">
 	import { PUBLIC_SITE_URL } from '$app/env/public';
 	import { altUrl as decodeAltUrl } from '#lib/alt-url.js';
+	import { tick } from 'svelte';
 	import { cn } from '#lib/utils.js';
 
 	// Lets a page restyle the wordmark (the teaser shows it as its eyebrow).
@@ -17,11 +18,16 @@
 
 	let clicks: number[] = [];
 	let altUrl = $state<string | null>(null);
+	let link = $state<HTMLAnchorElement>();
 
-	function onclick() {
+	async function onclick() {
 		const now = Date.now();
 		clicks = [...clicks.filter((time) => now - time < clickWindowMs), now];
-		if (clicks.length >= clicksToFlip) altUrl = decodeAltUrl();
+		if (clicks.length < clicksToFlip) return;
+		altUrl = decodeAltUrl();
+		// The button turns into a link: keep keyboard focus on it.
+		await tick();
+		link?.focus();
 	}
 </script>
 
@@ -33,6 +39,7 @@
 		)}
 		href={altUrl}
 		rel="nofollow noreferrer"
+		bind:this={link}
 	>
 		{new URL(altUrl).hostname}
 	</a>

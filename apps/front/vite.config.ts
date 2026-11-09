@@ -4,7 +4,7 @@ import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vite';
 
 export default defineConfig({
-	// Local ports: Strapi 3000, vin.ski 3001, ski.vin 3002.
+	// Local ports: Strapi 3000, this site 3001, the alt site 3002 (docs/getting-started.md).
 	server: { port: 3001, strictPort: true },
 	preview: { port: 3001, strictPort: true },
 	plugins: [
