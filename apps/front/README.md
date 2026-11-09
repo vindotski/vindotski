@@ -27,7 +27,6 @@ means a rebuild. See `.env.example`.
 | `PUBLIC_SITE_NAME` | The site name, in titles and `og:site_name`. |
 | `CMS_URL` | The Strapi origin (vinski.xyz). Read at build time only. |
 | `CMS_TOKEN` | A read-only Strapi API token. Never reaches the browser. |
-| `CMS_STATUS` | `published` (production) or `draft` (previews: unpublished changes too). |
 
 The build reads the CMS, so it needs the CMS running, and it fails rather than prerender a page
 without its content. Content changes reach the site with the next build.
@@ -39,7 +38,8 @@ without its content. Content changes reach the site with the next build.
 - `src/routes/(site)/`: **every other page goes here.** Its `+layout.ts` (and `src/hooks.server.ts`
   at runtime) turns the whole group into 404s in teaser mode.
 - `src/routes/(preview)/`: `/_style` (theme check) and `/_teaser`. A 404 unless `PUBLIC_ENV=preview`.
-- `src/routes/sitemap.xml`, `src/routes/robots.txt`: generated from the route files (`src/lib/pages.ts`).
+- `src/routes/sitemap.xml`: generated from the route files (`src/lib/pages.ts`). `src/routes/robots.txt`:
+  allows everything in production, disallows everything on previews.
 - `src/lib/components/SiteHeader.svelte`: the header with the wordmark and the portal switch, rendered by `Home.svelte` and
   `src/routes/(site)/+layout.svelte`. The teaser has no header; it places the wordmark in its eyebrow.
 - `src/lib/components/Teaser.svelte`: the teaser. A full-height hero from the Strapi profile: a mono
@@ -49,7 +49,7 @@ without its content. Content changes reach the site with the next build.
   sits in its corner.
 - `src/lib/components/PortalSwitch.svelte`: the Moon ("Lights out"), in the header and on the
   teaser. vin.ski is the Surface and always light (`<html class="light">` in `src/app.html`, ADR 0019),
-  so there's no color-mode toggle: the switch is the way down to the alt site, whose darkness rises
+  and the switch is the way down to the alt site, whose darkness rises
   from below. The URL is decoded only on click.
 - `src/lib/components/Wordmark.svelte`: the site's hostname. Click it three times
   and it flips to the alt site's name and links there (`rel="nofollow noreferrer"`). The URL is
@@ -66,7 +66,8 @@ without its content. Content changes reach the site with the next build.
   so `getProfile` returns the avatar URL already absolute for components to use.
 - `src/lib/components/Seo.svelte`: title, description, canonical, Open Graph and JSON-LD. One per page.
 - `src/lib/components/ui/`: shadcn-svelte components (`components.json`). The theme is
-  `@vindotski/theme`; `src/routes/layout.css` only sets the brand color (`--primary`, `--ring`).
+  `@vindotski/theme`; `src/routes/layout.css` sets only the brand color (`--primary`, `--ring`) and the crossover's
+  colors (`--crossover-color`, `--crossover-accent`).
 
 Add components with the CLI, from this folder:
 

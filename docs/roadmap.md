@@ -10,19 +10,19 @@ The order things are built in. Each step is one change that leaves every check g
 
 0. [x] **Docs and decisions** (1): `docs/`, ADRs 1–15, and the wiki sync. *Check:* every link resolves, and a dry run of the sync produces Home, Decisions and the ADR pages.
 1. [ ] **Agent setup** (11): `AGENTS.md`, `CLAUDE.md`, the app `AGENTS.md` files, and the vendored skills in `skills-lock.json`. *Check:* a fresh agent session lists the skills and the rules. (Built and merged; that check hasn't been run yet.)
-2. [x] **Workspace** (2, 10): `pnpm-workspace.yaml`, root scripts, `.nvmrc`, `save-exact`. *Check:* `pnpm install` succeeds on a clean clone.
+2. [x] **Workspace** (2, 10): `pnpm-workspace.yaml` (exact saves with `savePrefix: ""`, `minimumReleaseAge`), root scripts, `.nvmrc`. *Check:* `pnpm install` succeeds on a clean clone.
 3. [x] **Theme** (7): `packages/theme/theme.css` holds the chosen preset. *Check:* the same style is confirmed in both shadcn builders.
 4. [x] **front scaffold** (4, 13): SvelteKit with `adapter-node`, prerendering, `PUBLIC_ENV`, `Seo.svelte`, the sitemap, robots, and the `(preview)` routes. *Check:* `pnpm --filter front build` prerenders the site with a canonical URL, JSON-LD and a sitemap, and `/_style` returns 404 in production.
 5. [x] **back scaffold** (5, 13): Next.js with the robots headers, metadata and robots.txt, and `/_style` only in preview. *Check:* `curl -I` on a page and on an asset shows `X-Robots-Tag`, `/sitemap.xml` returns 404, and there are no `og:` tags.
 6. [x] **Strapi** (6): `apps/cms` with Postgres and the `profile`, `project` and `fragment` types. *Check:* a fresh database starts, and the content types appear in the admin.
-7. [x] **CMS clients** (6): both sites read Strapi through `CMS_URL`, `CMS_TOKEN` and `CMS_STATUS`. *Check:* a published profile shows up on both sites, and a draft only on preview builds.
+7. [x] **CMS clients** (6): both sites read Strapi through `CMS_URL` and `CMS_TOKEN` (published or draft content follows `PUBLIC_ENV`). *Check:* a published profile shows up on both sites, and a draft only on preview builds.
 8. [x] **Teaser mode** (12): the `(site)` group and the guard. *Check:* a production teaser build serves only `/`, and a preview build serves the full site plus `/_teaser`.
 9. [x] **Easter egg** (8): `Wordmark.svelte`. *Check:* the trigger flips the wordmark and the link works, and `grep -r ski.vin` finds nothing in the front build output.
 
 **Also done in this stage:**
-- [x] **Teaser in the spirit of the old vin.ski** (16): Geist and Geist Mono, the profile's `role` and `availability`, an eyebrow with the wordmark, link buttons, the portrait and a ticker. Both sites have a color-mode toggle: vin.ski defaults to the system and stays blue, and ski.vin defaults to dark and is red.
+- [x] **Teaser in the spirit of the old vin.ski** (16): Geist and Geist Mono, the profile's `role` and `availability`, an eyebrow with the wordmark, link buttons, the portrait and a ticker. Both sites had a color-mode toggle for a while; 19 replaced it with fixed modes and portal switches.
 
-- [x] **Pull past the end to cross** (17): `@vindotski/crossover` on both sites, with a color flood out and a reveal in. The public role is now Creative Technologist on both.
+- [x] **Pull past the edge to cross** (17; the direction is 19's: down past vin.ski's bottom, up past ski.vin's top): `@vindotski/crossover` on both sites, with a color flood out and a reveal in. The public role is now Creative Technologist on both.
 
 - [x] **Surface / Underground** (19): the concept (`docs/concept.md`). vin.ski is always light and ski.vin always dark. The Moon and Sun switches are the portals, vin.ski pulls past the bottom and ski.vin past the top, and floods are light and dark. Fragments have a `kind`.
 
@@ -47,5 +47,15 @@ The order things are built in. Each step is one change that leaves every check g
 5. [ ] **Cloudflare module** (14, 15): zones, DNS, the tunnel, cache rules and settings. *Check:* the first apply's `plan` shows only creates, and every host resolves through the tunnel.
 6. [ ] **Infra CI** (15): plan on pull requests, manual apply. *Check:* a pull request that touches `infra/` shows a plan.
 7. [ ] **Backups and the restore check** (9). *Check:* a restore into a fresh database succeeds.
+
+**Security work that belongs to this stage** (found in the pre-deploy hardening; the app-level fixes are done):
+- vin.ski's response headers at the proxy: HSTS, `X-Content-Type-Options`, `X-Frame-Options` or `frame-ancestors`, `Permissions-Policy`, and a CSP (`kit.csp` hashes for the inline scripts).
+- HSTS for ski.vin and vinski.xyz at the proxy.
+- Create the Strapi admin with `strapi admin:create-user` before vinski.xyz is reachable, and put `/admin` behind Cloudflare Access or an IP allowlist.
+- `X-Robots-Tag: noindex` on vinski.xyz, so CMS media is never listed.
+- The revalidate webhook goes to ski.vin over localhost, and the proxy blocks or rate-limits `/api/revalidate` from outside.
+- Bind Strapi and both sites to loopback or the Docker network only; only the proxy is public.
+- Build images without any `.env` in the build context (`.dockerignore` them): ski.vin's standalone output copies `apps/back/.env` into `.next/standalone/`, token included. Secrets come from the server's environment at run time.
+- A ruleset on `dev` that requires the CI checks, and one on `main` that blocks force pushes and deletion.
 
 **Decisions to make:** the registry (Docker Hub or GHCR), backup retention, and whether Strapi uploads go to R2.

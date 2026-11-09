@@ -8,7 +8,7 @@ The source of two websites and the CMS behind them, kept in one repository. It's
 | [`apps/back`](../apps/back/README.md) | ski.vin | The alt site, for creative work. Next.js, never listed by search engines |
 | [`apps/cms`](../apps/cms/README.md) | vinski.xyz | Strapi, the content for both sites |
 
-Both sites look the same, apart from their brand color, and the main site hides a way to reach the alt one.
+They're one place on two levels ([concept](concept.md)): vin.ski is the light Surface, with finished work, and ski.vin the dark Underground, with everything unpolished. The same type and components, a switch and a gesture between them.
 
 ## Pages
 

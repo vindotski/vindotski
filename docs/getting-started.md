@@ -2,7 +2,7 @@
 
 ## Running locally
 
-You need Node and pnpm (versions in `.nvmrc` and `package.json`) and Docker for the local Postgres. Each app's README has its details.
+You need Node (the version in `.nvmrc`), pnpm (the exact version in `package.json`'s `packageManager`: `npm install --global pnpm@12.4.1`) and Docker for the local Postgres. Each app's README has its details.
 
 ```bash
 pnpm install
@@ -24,11 +24,11 @@ These run on every pull request into `dev`, and on `dev` itself (`.github/workfl
 | Type check | `pnpm check` in every app. |
 | Build the sites | Both production builds against `scripts/mock-cms.mjs`, a stand-in for Strapi with placeholder content. vin.ski: no alt-site URL in the build, `<html class="light">`, a canonical URL and a sitemap; the teaser build has only `/`. ski.vin: `X-Robots-Tag` on every response, no sitemap or Open Graph tags, `<html class="dark">`. |
 
-To run the docs check yourself, use `node scripts/check-docs.mjs`. To build against the mock instead of Strapi, run `node scripts/mock-cms.mjs 4000`, and set `CMS_URL=http://localhost:4000` and `CMS_TOKEN=ci-token`.
+To run the docs check yourself, use `node scripts/check-docs.mjs`. To build against the mock instead of Strapi, run `node scripts/mock-cms.mjs` (port 4000), and set `CMS_URL=http://localhost:4000` and `CMS_TOKEN=ci-token`.
 
 ## Using this as a template
 
-- Replace the domains, tokens and names in the `.env` files and `terraform.tfvars`. None of them appear in the code ([3](decisions/0003-nothing-hardcoded.md)).
+- Replace the domains, tokens and names in the `.env` files (and, once Stage 2 exists, `terraform.tfvars`). None of them appear in the code ([3](decisions/0003-nothing-hardcoded.md)).
 - Leave the root `README.md` alone, or replace it with your own: on the owner's repository, it's the GitHub profile README.
 - The code is yours to reuse under the AGPL, version 3 only. The content about Ivan Vinski isn't: replace the profile, the portrait, the wordmarks and the CMS content with your own ([NOTICE](../NOTICE), [20](decisions/0020-license.md)).
 

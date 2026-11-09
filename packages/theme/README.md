@@ -14,8 +14,7 @@ In an app's global CSS, after Tailwind and the framework's shadcn helpers:
 
 ```css
 @import "tailwindcss";
-@import "tw-animate-css";
-@import "shadcn-svelte/tailwind.css"; /* front; back uses "shadcn/tailwind.css" */
+@import "shadcn-svelte/tailwind.css"; /* front; back vendors it as ./shadcn.css */
 @import "@vindotski/theme/theme.css";
 
 :root {

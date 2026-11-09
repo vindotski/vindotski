@@ -7,7 +7,7 @@ Ivan works here most; the style is free, but the robots rules below are not.
 
 - App Router only (`app/`). Server Components by default; add `"use client"` only where a component
   needs state, effects or browser APIs, and keep those components small.
-- Data comes from the CMS client (`lib/cms.ts`) with `revalidate` and tags; content updates arrive
+- Data comes from the CMS client (`lib/cms.ts`) with `"use cache"` and the `cms` tag; content updates arrive
   through `app/api/revalidate/route.ts`, which checks a secret from env.
 - Use the `vercel-react-best-practices` skill for React and Next.js code, and the `shadcn` skill for
   components. Shared tokens come from `@vindotski/theme`; this app overrides only `--primary`/`--ring`.
@@ -23,6 +23,5 @@ Ivan works here most; the style is free, but the robots rules below are not.
 - `app/robots.ts` allows `*` and disallows AI and scraper bots by name (GPTBot, ClaudeBot, CCBot,
   Google-Extended, Bytespider and others). **Never `Disallow: /` for search engines:** they must be able
   to crawl to see the noindex, or the bare URL can still get listed.
-  (In preview, `PUBLIC_ENV=preview`, robots.txt may disallow everything.)
 - No `sitemap.ts`, no `openGraph` or `twitter` metadata, no OG images.
 - After touching config, layouts or middleware, check `curl -I` on `/`, a page and a static asset.

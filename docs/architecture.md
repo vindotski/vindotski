@@ -6,7 +6,7 @@ The apps, theme and content run locally. Environments on servers and hosting are
 
 ```
 apps/
-  front/   SvelteKit 2 + Svelte 5 → vin.ski    prerendered, indexable
+  front/   SvelteKit 3 + Svelte 5 → vin.ski    prerendered, indexable
   back/    Next.js (App Router)   → ski.vin    online, never listed
   cms/     Strapi 5 + Postgres    → vinski.xyz admin /admin, API /api
 packages/
@@ -25,7 +25,7 @@ infra/
 
 ```
 Strapi (vinski.xyz) ──REST──▶ front  at build time    (rebuild on publish)
-                    ──REST──▶ back   ISR + revalidate (webhook)
+                    ──REST──▶ back   "use cache" + revalidate (webhook)
 ```
 
 Content types: `profile` (single), `project` (with `site`: front, back or both) and `fragment` (the alt site). Production reads published entries, and preview reads drafts ([6](decisions/0006-strapi.md)).

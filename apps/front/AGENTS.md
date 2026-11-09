@@ -28,10 +28,11 @@ so the code has to read like markup.
 - `/` is the only page outside a group. It renders the teaser or the home, by `PUBLIC_TEASER`.
 - **New pages go under `src/routes/(site)/`.** Its layout returns 404 in teaser mode, which covers
   every current and future page.
-- `src/routes/(preview)/` holds the preview-only pages (`/_style`, `/_teaser`); its layout returns 404
-  unless `PUBLIC_ENV=preview`.
-- Env is read through `$env/static/public` (`PUBLIC_ENV`, `PUBLIC_SITE_URL`, `PUBLIC_TEASER`,
-  `PUBLIC_ALT_URL`). Never hardcode a domain.
+- `src/routes/(preview)/` holds the preview-only pages (`/_style`, `/_teaser`); `src/hooks.server.ts`
+  answers them with a 404 unless `PUBLIC_ENV=preview`, before any load runs.
+- Env is read through `$app/env/public` (`PUBLIC_ENV`, `PUBLIC_SITE_URL`, `PUBLIC_TEASER`,
+  `PUBLIC_ALT_URL`) and, in `src/lib/cms.ts` only, `$app/env/private` (`CMS_URL`, `CMS_TOKEN`: dynamic,
+  never inlined into the build). Never hardcode a domain.
 
 ## Never link to ski.vin in the HTML
 
