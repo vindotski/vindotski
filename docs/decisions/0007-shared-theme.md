@@ -4,7 +4,8 @@ number: 7
 status: accepted
 implementation: built
 date: 2026-11-09
-notes: "Preset b6RdvRWulu (vega, neutral, no radius, Space Grotesk), the same in both CLIs."
+superseded_by: [16]
+notes: "Preset b6RdvRWulu (vega, neutral, no radius), the same in both CLIs. Its font, Space Grotesk, is replaced by Geist and Geist Mono in ADR 16; the rest stands."
 ---
 
 ## Context

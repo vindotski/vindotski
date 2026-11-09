@@ -2,8 +2,9 @@
  * The shared look of vin.ski and ski.vin (ADR 0007).
  *
  * shadcn preset b6RdvRWulu: style "vega", base color neutral, no radius,
- * Space Grotesk, lucide icons. It decodes to the same config in the
- * shadcn-svelte (1.7.1) and shadcn/ui (4.22.1) CLIs.
+ * lucide icons. It decodes to the same config in the shadcn-svelte (1.7.1)
+ * and shadcn/ui (4.22.1) CLIs. The preset's Space Grotesk is replaced by
+ * Geist and Geist Mono (ADR 0016).
  *
  * Each app imports Tailwind and its framework's shadcn helpers first, then
  * this file, then overrides only --primary, --primary-foreground and --ring:
@@ -13,11 +14,20 @@
  *   @import "shadcn-svelte/tailwind.css";   (or "shadcn/tailwind.css")
  *   @import "@vindotski/theme/theme.css";
  */
-@import "@fontsource-variable/space-grotesk";
+@import "@fontsource-variable/geist";
+@import "@fontsource-variable/geist-mono";
 
-/* Dark mode follows the system setting: no toggle, no JavaScript, and it
-   works on prerendered pages. */
-@custom-variant dark (@media (prefers-color-scheme: dark));
+/* Dark mode follows the system setting (vin.ski), or is forced by a `dark`
+   class on an ancestor (ski.vin puts it on <html>). No toggle and no
+   JavaScript, so it works on prerendered pages (ADR 0016). */
+@custom-variant dark {
+  @media (prefers-color-scheme: dark) {
+    @slot;
+  }
+  &:where(.dark, .dark *) {
+    @slot;
+  }
+}
 
 :root {
   --background: oklch(1 0 0);
@@ -90,9 +100,45 @@
   }
 }
 
+/* The same dark tokens, for a forced `dark` class. Keep both blocks in sync. */
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.922 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+  --chart-1: oklch(0.87 0 0);
+  --chart-2: oklch(0.556 0 0);
+  --chart-3: oklch(0.439 0 0);
+  --chart-4: oklch(0.371 0 0);
+  --chart-5: oklch(0.269 0 0);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.556 0 0);
+}
+
 @theme inline {
-  --font-sans: "Space Grotesk Variable", sans-serif;
-  --font-heading: "Space Grotesk Variable", sans-serif;
+  --font-sans: "Geist Variable", sans-serif;
+  --font-heading: "Geist Variable", sans-serif;
+  --font-mono: "Geist Mono Variable", ui-monospace, monospace;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
