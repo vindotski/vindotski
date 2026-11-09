@@ -1,0 +1,57 @@
+# Mirrors docs/ to the GitHub wiki (docs/decisions/0001-adrs-and-wiki.md).
+# The wiki has to be enabled, with one page created, before the first run.
+name: Wiki
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "docs/**"
+      - "scripts/sync-wiki.mjs"
+      - ".github/workflows/wiki.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: wiki
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      # Plain git instead of actions/checkout: no third-party action to pin.
+      - name: Check out the repository and its wiki
+        env:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          SHA: ${{ github.sha }}
+        run: |
+          git init -q repo
+          git -C repo fetch -q --depth 1 "https://x-access-token:${TOKEN}@github.com/${REPO}.git" "${SHA}"
+          git -C repo checkout -q FETCH_HEAD
+          git clone -q --depth 1 "https://x-access-token:${TOKEN}@github.com/${REPO}.wiki.git" wiki
+
+      - name: Write the wiki pages
+        env:
+          REPO_URL: ${{ github.server_url }}/${{ github.repository }}
+          BRANCH: ${{ github.ref_name }}
+        run: node repo/scripts/sync-wiki.mjs repo/docs wiki "${REPO_URL}" "${BRANCH}"
+
+      - name: Push them
+        env:
+          SHA: ${{ github.sha }}
+        run: |
+          cd wiki
+          git add -A
+          if git diff --cached --quiet; then
+            echo "The wiki is already up to date."
+            exit 0
+          fi
+          git -c user.name="github-actions[bot]" \
+              -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+              commit -q -m "Sync from docs/ at ${SHA}"
+          git push -q

@@ -1,0 +1,112 @@
+{
+  "version": 1,
+  "skills": {
+    "build-journal": {
+      "source": "local",
+      "from": "generalized-skills/build-journal (Ivan's own collection)",
+      "license": "MIT",
+      "note": "Ivan's own generalized-skills collection (not a git repository); copied 2026-11-09 without changes."
+    },
+    "commit-message": {
+      "source": "local",
+      "from": "spotcraft/.claude/skills/commit-message",
+      "note": "Adapted from Spotcraft: the agent proposes the message and commits after the user's OK; a Co-Authored-By trailer is allowed; scopes are vindotski's (front, back, cms, theme, ...)."
+    },
+    "decisions-and-docs": {
+      "source": "local",
+      "from": "generalized-skills/decisions-and-docs (Ivan's own collection)",
+      "license": "MIT",
+      "note": "Ivan's own generalized-skills collection (not a git repository); copied 2026-11-09 without changes."
+    },
+    "mature-dependency-pins": {
+      "source": "local",
+      "from": "generalized-skills/mature-dependency-pins (Ivan's own collection)",
+      "license": "MIT",
+      "note": "Ivan's own generalized-skills collection (not a git repository); copied 2026-11-09 without changes."
+    },
+    "pnpm": {
+      "source": "https://github.com/antfu/skills",
+      "path": "skills/pnpm",
+      "commit": "f63e9ec7bc85f67364b6596c2d29da87e83ce445",
+      "license": "MIT",
+      "note": "Copied from Spotcraft's vendored copy; identical to upstream at this commit (LICENSE added)."
+    },
+    "shadcn": {
+      "source": "https://github.com/shadcn-ui/ui",
+      "path": "skills/shadcn",
+      "commit": "daaf156ee00ed91cc7e6bdd937c1b4973152d141",
+      "license": "MIT",
+      "note": "Commit of the shadcn@4.22.1 release tag, matching the pinned CLI; skills/shadcn is unchanged from there to main (8ab2771, 2026-11-08).",
+      "patches": [
+        "allowed-tools narrowed from `npx|pnpm dlx|bunx --bun shadcn@latest *` to `pnpm -C apps/back dlx shadcn@4.22.1 *`: never pre-approve an unpinned CLI",
+        "`npx shadcn@latest` (and the pnpm dlx/bunx variants) replaced with `pnpm -C apps/back dlx shadcn@4.22.1` throughout; vindotski note added (back only, shared tokens in packages/theme)",
+        "the `!`npx shadcn@latest info --json`` context injection, which ran an unpinned CLI every time the skill loaded, replaced with an instruction to run the pinned `info --json` first"
+      ],
+      "omitted": [
+        "evals/ (not used by Claude Code)",
+        "agents/ (not used by Claude Code)"
+      ]
+    },
+    "shadcn-svelte": {
+      "source": "https://github.com/huntabyte/shadcn-svelte",
+      "path": "skills/shadcn-svelte",
+      "commit": "3c4152d7d3904e76f6f756ec8ffca7c9ec72f977",
+      "license": "MIT",
+      "patches": [
+        "allowed-tools narrowed from `npx|pnpm dlx|bunx --bun shadcn-svelte@latest *` to `pnpm -C apps/front dlx shadcn-svelte@1.7.1 *`: never pre-approve an unpinned CLI",
+        "`npx shadcn-svelte@latest` (and the pnpm dlx/bunx variants) replaced with `pnpm -C apps/front dlx shadcn-svelte@1.7.1` throughout; vindotski note added (front only, shared tokens in packages/theme, `--preset <style name>` needs CLI 1.8.0+)"
+      ],
+      "omitted": [
+        "evals/ (not used by Claude Code)",
+        "agents/ (not used by Claude Code)"
+      ]
+    },
+    "svelte-code-writer": {
+      "source": "https://github.com/sveltejs/ai-tools",
+      "path": "tools/skills/svelte-code-writer",
+      "commit": "d3e755be770277d8c75fe61109b103b801b12775",
+      "license": "MIT",
+      "patches": [
+        "`npx @sveltejs/mcp` replaced with `pnpm dlx @sveltejs/mcp@0.1.27`: an exact, mature version instead of whatever is newest at run time"
+      ]
+    },
+    "svelte-core-bestpractices": {
+      "source": "https://github.com/sveltejs/ai-tools",
+      "path": "tools/skills/svelte-core-bestpractices",
+      "commit": "d3e755be770277d8c75fe61109b103b801b12775",
+      "license": "MIT",
+      "note": "Copied from Spotcraft's vendored copy; identical to upstream at this commit (LICENSE added)."
+    },
+    "vercel-react-best-practices": {
+      "source": "https://github.com/vercel-labs/agent-skills",
+      "path": "skills/react-best-practices",
+      "commit": "1a2c79d4e6c4a2283dc2c614b6538cbe1ed5ca62",
+      "license": "MIT (stated in SKILL.md frontmatter and the repo README; no LICENSE file upstream)",
+      "note": "Vendored under its skill name (vercel-react-best-practices). LICENSE is the Vercel Labs MIT text also used for web-design-guidelines."
+    },
+    "vite": {
+      "source": "https://github.com/antfu/skills",
+      "path": "skills/vite",
+      "commit": "f63e9ec7bc85f67364b6596c2d29da87e83ce445",
+      "license": "MIT",
+      "note": "Copied from Spotcraft's vendored copy; identical to upstream at this commit (LICENSE added)."
+    },
+    "web-design-guidelines": {
+      "source": "https://github.com/vercel-labs/agent-skills",
+      "path": "skills/web-design-guidelines",
+      "commit": "1a2c79d4e6c4a2283dc2c614b6538cbe1ed5ca62",
+      "license": "MIT (stated in the repo README; no LICENSE file upstream)",
+      "includes": {
+        "source": "https://github.com/vercel-labs/web-interface-guidelines",
+        "path": "command.md",
+        "commit": "434b7f91364665f2f733b310ec54809bf8f37937",
+        "license": "MIT",
+        "vendoredAs": "references/guidelines.md"
+      },
+      "patches": [
+        "reads the pinned references/guidelines.md instead of fetching the guidelines from `main` at review time (unpinned remote text would become instructions)"
+      ],
+      "note": "Copied from Spotcraft's vendored copy (originally vendored and patched in vinskiano at this commit)."
+    }
+  }
+}

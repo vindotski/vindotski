@@ -1,0 +1,19 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import 'shadcn-svelte/tailwind.css';
+@import '@vindotski/theme/theme.css';
+
+/* vin.ski's brand color. Everything else comes from @vindotski/theme. */
+:root {
+	--primary: oklch(0.546 0.245 262.881);
+	--primary-foreground: oklch(0.985 0 0);
+	--ring: oklch(0.546 0.245 262.881);
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--primary: oklch(0.623 0.214 259.815);
+		--primary-foreground: oklch(0.985 0 0);
+		--ring: oklch(0.623 0.214 259.815);
+	}
+}
