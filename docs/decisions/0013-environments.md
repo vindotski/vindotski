@@ -4,7 +4,8 @@ number: 13
 status: accepted
 implementation: partly-built
 date: 2026-11-09
-notes: "PUBLIC_ENV and the preview-only routes are built. Branches, hosts, basic auth and deploys come with stage 2."
+superseded_by: [18]
+notes: "PUBLIC_ENV and the preview-only routes are built. Branches, hosts, basic auth and deploys come with stage 2. Since ADR 18, dev reaches main by a fast-forward push, not a pull request."
 ---
 
 ## Context

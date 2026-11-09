@@ -18,8 +18,9 @@ Each record has front matter (`title`, `number`, `status`, `implementation`, `da
 | [10](0010-pinned-dependencies.md) | Dependencies are pinned to exact versions at least two weeks old | Principle |
 | [11](0011-agents.md) | Agents work from `AGENTS.md` and vendored, pinned skills | Built |
 | [12](0012-teaser-mode.md) | vin.ski has a build-time teaser mode: only `/` is served | Built |
-| [13](0013-environments.md) | Two environments from two branches: `main` deploys production, `dev` deploys previews | Partly built |
+| [13](0013-environments.md) | Two environments from two branches: `main` deploys production, `dev` deploys previews | Partly built; promotion superseded by 18 |
 | [14](0014-cloudflare-edge.md) | Cloudflare sits in front, optionally: a Tunnel, and edge caching tuned per app | Designed |
 | [15](0015-infrastructure-as-code.md) | All Hetzner and Cloudflare configuration is OpenTofu, with encrypted state in R2 | Designed |
 | [16](0016-geist-and-color-modes.md) | Geist and Geist Mono replace Space Grotesk; both sites have a color-mode toggle, vin.ski defaults to the system and ski.vin to dark | Built |
 | [17](0017-pull-to-cross.md) | Scrolling past the end of either site carries you to the other, with a color flood | Built |
+| [18](0018-release-by-fast-forward.md) | `dev` is the default branch; changes go by pull request into `dev`, and a release fast-forwards `main` to `dev` | Built |
