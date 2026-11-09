@@ -1,6 +1,8 @@
 // Pull past the edge of a page to cross to the other site (ADRs 0017, 0019).
-// vin.ski pulls past the bottom to go down; ski.vin pulls past the top to come
-// up. Framework-free: each site wraps it in a small component.
+// The light site pulls past the bottom to go down; the dark one pulls past the
+// top to come up. Framework-free: each site wraps it in a small component.
+// (No hostnames in comments here: this file is bundled into the light site,
+// whose build must never contain the other site's name.)
 
 const HASH_PREFIX = '#crossover-';
 
@@ -89,7 +91,8 @@ export function attachCrossover({ getUrl, edge = 'bottom', onProgress = () => {}
     const now = performance.now();
     const gap = now - lastWheel;
     lastWheel = now;
-    if (crossed) return;
+    // A trackpad pinch arrives as wheel events with ctrlKey: that's zooming.
+    if (crossed || event.ctrlKey) return;
     const push = event.deltaY * sign;
     if (!trackEdge(now) || push <= 0) {
       armed = false;
@@ -111,12 +114,18 @@ export function attachCrossover({ getUrl, edge = 'bottom', onProgress = () => {}
 
   /** @param {TouchEvent} event */
   const onTouchStart = (event) => {
-    touchStartY = trackEdge() && !crossed ? event.touches[0].clientY : null;
+    // One finger only: two are a pinch or a zoom.
+    touchStartY = trackEdge() && !crossed && event.touches.length === 1 ? event.touches[0].clientY : null;
   };
 
   /** @param {TouchEvent} event */
   const onTouchMove = (event) => {
     if (touchStartY === null || crossed) return;
+    if (event.touches.length !== 1) {
+      touchStartY = null;
+      easeBack();
+      return;
+    }
     // Past the bottom, the finger moves up; past the top, it moves down.
     set(((touchStartY - event.touches[0].clientY) * sign) / TOUCH_DISTANCE);
   };
@@ -131,7 +140,8 @@ export function attachCrossover({ getUrl, edge = 'bottom', onProgress = () => {}
   const onKey = (event) => {
     // A held key auto-repeats: someone holding ↓ to scroll would be carried off
     // as soon as they reach the edge. Only separate presses count.
-    if (crossed || event.repeat || event.defaultPrevented || event.altKey || event.ctrlKey || event.metaKey) return;
+    // Shift+Space scrolls up, so it never pulls down.
+    if (crossed || event.repeat || event.defaultPrevented || event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return;
     if (!KEYS[edge].includes(event.key)) return;
     const target = /** @type {HTMLElement | null} */ (event.target);
     if (target?.closest('input, textarea, select, button, [contenteditable]')) return;
@@ -189,6 +199,8 @@ export function attachCrossover({ getUrl, edge = 'bottom', onProgress = () => {}
  * @param {{ direction?: Direction }} [options]
  */
 export function crossTo(url, { direction = 'down' } = {}) {
+  // One crossing at a time: a double click floods once.
+  if (document.querySelector('.crossover-flood')) return;
   const target = url.replace(/#.*$/, '') + HASH_PREFIX + direction;
   if (reducedMotion()) {
     location.assign(target);
@@ -199,6 +211,15 @@ export function crossTo(url, { direction = 'down' } = {}) {
   flood.dataset.direction = direction;
   flood.setAttribute('aria-hidden', 'true');
   document.body.append(flood);
+  // Coming back with the Back button can restore this page from the
+  // back-forward cache with the flood still on it: remove it then.
+  window.addEventListener(
+    'pageshow',
+    (event) => {
+      if (event.persisted) flood.remove();
+    },
+    { once: true },
+  );
   flood.getBoundingClientRect(); // start from the hidden position
   flood.classList.add('crossover-flood-in');
   window.setTimeout(() => location.assign(target), FLOOD_MS);
