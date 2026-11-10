@@ -10,7 +10,7 @@ services:
     environment:
       POSTGRES_DB: ${DATABASE_NAME}
       POSTGRES_USER: ${DATABASE_USERNAME}
-      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD:?set DATABASE_PASSWORD in apps/cms/.env}
     ports:
       - "127.0.0.1:${DATABASE_PORT}:5432"
     volumes:

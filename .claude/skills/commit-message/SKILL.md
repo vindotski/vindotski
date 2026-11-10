@@ -45,6 +45,7 @@ Optional, but use one when it fits:
 | `back` | `apps/back`: ski.vin (Next.js) |
 | `cms` | `apps/cms`: Strapi on vinski.xyz |
 | `theme` | `packages/theme`: shared shadcn tokens |
+| `crossover` | `packages/crossover`: the portal switches and the pull between the sites |
 | `docs` | `docs/`, ADRs |
 | `deps` | dependency changes |
 | `ci` | GitHub workflows |

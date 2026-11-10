@@ -4,7 +4,7 @@ number: 4
 status: accepted
 implementation: built
 date: 2026-11-09
-notes: "Built in roadmap stage 1 (adapter-node, prerendering, Seo.svelte, sitemap, robots)."
+notes: "Built in roadmap stage 1 (adapter-node, prerendering, Seo.svelte, sitemap, robots). It was built on SvelteKit 3, not 2: the env API is $app/env/*."
 ---
 
 ## Context

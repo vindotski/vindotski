@@ -13,7 +13,7 @@ export function PortalSwitch({ url, className }: { url: string; className?: stri
       size="icon-sm"
       className={className}
       onClick={() => crossTo(url, { direction: "up" })}
-      aria-label="Lights on"
+      aria-label="Lights on (leaves this site)"
       title="Lights on"
     >
       <SunIcon />

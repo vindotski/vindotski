@@ -30,19 +30,24 @@ See `.env.example`. Static pages read their env when they're prerendered at buil
 | `FRONT_URL` | vin.ski's origin: where the Sun and pulling past the top lead (ADRs 0017, 0019). |
 | `CMS_URL` | The Strapi origin (vinski.xyz). |
 | `CMS_TOKEN` | A read-only Strapi API token. Server-only. |
-| `CMS_STATUS` | `published` (production) or `draft` (previews: unpublished changes too). |
 | `REVALIDATE_SECRET` | Shared with the Strapi webhook that calls `/api/revalidate`. |
 
 ## Content
 
 `lib/cms.ts` reads Strapi with `"use cache"` under the `cms` tag, so pages are prerendered with
 their content (the build needs the CMS running). To refresh them when content changes, add a
-webhook in Strapi (Settings → Webhooks) for entry create, update, delete, publish and unpublish:
+webhook in Strapi (Settings → Webhooks) for entry publish, unpublish, update and delete:
 
 - URL: `https://ski.vin/api/revalidate` (and one for `https://dev.ski.vin/api/revalidate`)
 - Header: `Authorization: Bearer <REVALIDATE_SECRET>`
 
-Pages refresh on their next visit; without the webhook they refresh hourly.
+After a webhook, the next visit still gets the cached page and triggers the refresh; the visit after
+that sees the new content. Without the webhook, pages refresh hourly.
+
+Pages are static, so what they read from the environment (`PUBLIC_ENV`, `SITE_NAME`, `FRONT_URL`, the
+CMS content) is fixed at build time: build once per environment. The CMS token is read from the
+environment, never written into the build, with one catch: Next's standalone output copies a local
+`.env` into `.next/standalone/`. Build deployable output without a `.env` present (CI has none).
 
 ## Layout
 

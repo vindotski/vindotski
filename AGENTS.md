@@ -9,9 +9,12 @@ Ivan Vinski's personal sites, in one pnpm monorepo. Docs live in `docs/` (publis
 | `apps/front` | Main site, SvelteKit, prerendered and SEO-first. A designer works here. | vin.ski |
 | `apps/back` | Alt site, Next.js App Router. Online but never listed. | ski.vin |
 | `apps/cms` | Strapi 5 + Postgres, the content source for both sites. | vinski.xyz |
-| `packages/theme` | Shared shadcn tokens; each site only overrides `--primary`/`--ring`. | |
-| `docs/` | Architecture, roadmap, ADRs (`docs/decisions`). | wiki |
-| `.claude/skills/` | Vendored, pinned agent skills; sources in `skills-lock.json`. | |
+| `packages/theme` | Shared shadcn tokens and fonts; each site overrides only its brand color. | |
+| `packages/crossover` | The way between the sites: portal switches and pulling past an edge. | |
+| `docs/` | Concept, architecture, roadmap, ADRs (`docs/decisions`), releasing. | wiki |
+| `scripts/` | `check-docs.mjs` (docs check), `mock-cms.mjs` (CMS stand-in for CI), `sync-wiki.mjs`. | |
+| `.github/` | CI (`ci.yml`), the wiki sync (`wiki.yml`), Dependabot. | |
+| `.claude/` | Vendored, pinned agent skills (sources in `skills-lock.json`); `launch.json` for previews. | |
 
 Each app has its own `AGENTS.md` with app-specific rules. Read it before working there.
 
@@ -26,20 +29,20 @@ pnpm --filter <front|back|cms> check
 
 ## Hard rules
 
+Each rule's details live in the app's `AGENTS.md` and the ADR it cites.
+
 - **Never edit the root `README.md`.** It is Ivan's GitHub profile README, not project docs.
-- **Surface / Underground (ADR 19, `docs/concept.md`):** vin.ski is always light, and ski.vin always dark.
-  There's no color-mode toggle: the Moon and Sun switches are the portals between the sites. Keep new
-  work true to the concept (finished work up top, the unpolished below).
+- **Surface / Underground (ADR 19, `docs/concept.md`):** vin.ski is always light, and ski.vin always dark;
+  the Moon and Sun switches are the portals. Keep new work true to the concept.
 - **Nothing is hardcoded.** Domains, URLs and tokens come from env; each app keeps a `.env.example`.
-- **ski.vin stays unlisted:** the noindex `X-Robots-Tag` header and robots meta on every response,
-  no sitemap, no OG/Twitter metadata. robots.txt blocks AI bots only, never `Disallow: /` for search engines.
-- **vin.ski never contains a ski.vin link in its HTML.** The easter egg builds the link client-side.
-- **vin.ski stays prerenderable.** Teaser mode is a build-time flag; new pages go under `src/routes/(site)/`.
-- **Pin dependencies** exactly, at versions at least two weeks old (`mature-dependency-pins` skill).
-- **Environments:** `main` deploys production; `dev` (the default branch) deploys dev.vin.ski and dev.ski.vin.
+- **ski.vin stays unlisted** (ADR 5, `apps/back/AGENTS.md`).
+- **vin.ski never contains the alt site's name in its build** (ADRs 5, 8, `apps/front/AGENTS.md`).
+- **vin.ski stays prerenderable** (ADRs 4, 12, `apps/front/AGENTS.md`).
+- **Secrets stay out of builds:** CMS tokens are read from the environment at build or run time,
+  never inlined. CI checks both builds for the token.
+- **Pin dependencies** exactly, at versions at least two weeks old (ADR 10, `mature-dependency-pins` skill).
 - **Branches (ADR 18):** pull requests always target `dev`. A release fast-forwards `main` to `dev`
-  (`git push origin origin/dev:main`, see `docs/releasing.md`), and only when Ivan asks. Never commit
-  to `main` directly, and never force-push it.
+  (`docs/releasing.md`), and only when Ivan asks. Never commit to `main`, never force-push it.
 
 ## Workflow
 

@@ -13,15 +13,10 @@ on:
 permissions:
   contents: read
 
+# A newer push to a pull request replaces its run; every dev commit keeps its own.
 concurrency:
   group: ci-${{ github.ref }}
-  cancel-in-progress: true
-
-env:
-  PNPM_VERSION: 12.4.1 # the root package.json's packageManager
-  CMS_URL: http://localhost:4000
-  CMS_TOKEN: ci-token
-  CMS_STATUS: published
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   docs:
@@ -30,10 +25,12 @@ jobs:
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version-file: .nvmrc
-      - name: Links and ADRs
+      - name: Links, anchors and ADRs
         run: node scripts/check-docs.mjs
       - name: Wiki sync, dry run
         run: node scripts/sync-wiki.mjs docs "$RUNNER_TEMP/wiki" "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY"
@@ -44,10 +41,20 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version-file: .nvmrc
-      - run: npm install --global "pnpm@$PNPM_VERSION"
+      - name: Install pnpm (the version in package.json's packageManager)
+        run: npm install --global "pnpm@$(node -p "require('./package.json').packageManager.split('@')[1]")"
+      - id: pnpm
+        run: echo "store=$(pnpm store path --silent)" >> "$GITHUB_OUTPUT"
+      - uses: actions/cache@caa296126883cff596d87d8935842f9db880ef25 # v5.1.0
+        with:
+          path: ${{ steps.pnpm.outputs.store }}
+          key: pnpm-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: pnpm-${{ runner.os }}-
       - run: pnpm install --frozen-lockfile
       - run: pnpm check
 
@@ -55,19 +62,32 @@ jobs:
     name: Build the sites
     runs-on: ubuntu-24.04
     timeout-minutes: 20
+    env:
+      CMS_URL: http://localhost:4000
+      CMS_TOKEN: ci-token
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version-file: .nvmrc
-      - run: npm install --global "pnpm@$PNPM_VERSION"
+      - name: Install pnpm (the version in package.json's packageManager)
+        run: npm install --global "pnpm@$(node -p "require('./package.json').packageManager.split('@')[1]")"
+      - id: pnpm
+        run: echo "store=$(pnpm store path --silent)" >> "$GITHUB_OUTPUT"
+      - uses: actions/cache@caa296126883cff596d87d8935842f9db880ef25 # v5.1.0
+        with:
+          path: ${{ steps.pnpm.outputs.store }}
+          key: pnpm-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: pnpm-${{ runner.os }}-
       - run: pnpm install --frozen-lockfile
 
       - name: Start the mock CMS
         run: |
-          node scripts/mock-cms.mjs 4000 &
+          node scripts/mock-cms.mjs 4000 > "$RUNNER_TEMP/mock-cms.log" 2>&1 &
           for i in $(seq 1 30); do curl -sf -o /dev/null localhost:4000/_health && exit 0; sleep 1; done
-          echo "The mock CMS didn't start." && exit 1
+          echo "The mock CMS didn't start." && cat "$RUNNER_TEMP/mock-cms.log" && exit 1
 
       - name: vin.ski, production build
         env:
@@ -79,13 +99,34 @@ jobs:
         run: |
           pnpm --filter front build
           html=apps/front/build/prerendered/index.html
-          # ADRs 0005, 0008: the alt site's URL never appears in vin.ski's build.
-          if grep -rl 'alt\.example' apps/front/build; then echo "The alt site's URL is in the build."; exit 1; fi
+          # ADRs 0005, 0008: neither the alt site's URL nor its real name is anywhere in vin.ski's build.
+          if grep -rliE 'alt\.example|ski\.vin' apps/front/build; then echo "The alt site's name is in the build."; exit 1; fi
+          # The CMS token is read while prerendering, never written into the build.
+          if grep -rl "$CMS_TOKEN" apps/front/build; then echo "The CMS token is in the build."; exit 1; fi
+          # Only the fields the pages use reach the HTML.
+          if grep -lE '"(createdAt|updatedAt|publishedAt)"' "$html"; then echo "Raw CMS fields are in the HTML."; exit 1; fi
           # ADR 0019: the Surface is always light.
           grep -q '<html lang="en" class="light">' "$html" || { echo "<html class=\"light\"> is missing."; exit 1; }
-          # ADR 0004: indexable, with a canonical URL and a sitemap.
+          # ADR 0004: indexable, with a canonical URL, an image for previews and a sitemap.
           grep -q '<link rel="canonical" href="https://site.example/"' "$html" || { echo "No canonical URL."; exit 1; }
+          grep -q 'property="og:image"' "$html" || { echo "No og:image."; exit 1; }
           test -f apps/front/build/prerendered/sitemap.xml || { echo "No sitemap."; exit 1; }
+
+      - name: vin.ski, preview routes are 404s in production
+        env:
+          PUBLIC_ENV: production
+          PUBLIC_TEASER: "false"
+          PUBLIC_SITE_URL: https://site.example
+          PUBLIC_SITE_NAME: CI
+          PUBLIC_ALT_URL: https://alt.example
+          PORT: "3101"
+        run: |
+          node apps/front/build > "$RUNNER_TEMP/front.log" 2>&1 &
+          for i in $(seq 1 30); do curl -sf -o /dev/null localhost:3101/ && break; sleep 1; done
+          curl -sf -o /dev/null localhost:3101/ || { echo "vin.ski didn't start."; cat "$RUNNER_TEMP/front.log"; exit 1; }
+          for path in /_teaser /_style; do
+            test "$(curl -s -o /dev/null -w '%{http_code}' "localhost:3101$path")" = 404 || { echo "$path isn't a 404."; exit 1; }
+          done
 
       - name: vin.ski, teaser build
         env:
@@ -100,29 +141,43 @@ jobs:
           pages=$(find apps/front/build/prerendered -name '*.html' | sort)
           echo "$pages"
           test "$pages" = "apps/front/build/prerendered/index.html" || { echo "Teaser mode built more than /."; exit 1; }
-          if grep -rl 'alt\.example' apps/front/build; then echo "The alt site's URL is in the build."; exit 1; fi
+          if grep -rliE 'alt\.example|ski\.vin' apps/front/build; then echo "The alt site's name is in the build."; exit 1; fi
 
       - name: ski.vin, production build
         env:
           PUBLIC_ENV: production
           SITE_NAME: CI
           FRONT_URL: https://site.example
-          REVALIDATE_SECRET: ci-secret
-        run: pnpm --filter back build
+          REVALIDATE_SECRET: ci-revalidate-secret-at-least-32-chars
+        run: |
+          pnpm --filter back build
+          # The CMS token is read from the environment, never written into the build.
+          if grep -rl --exclude-dir=cache "$CMS_TOKEN" apps/back/.next; then echo "The CMS token is in the build."; exit 1; fi
 
-      - name: ski.vin, never listed
+      - name: ski.vin, never listed and hardened
         env:
           PUBLIC_ENV: production
           SITE_NAME: CI
           FRONT_URL: https://site.example
-          REVALIDATE_SECRET: ci-secret
+          REVALIDATE_SECRET: ci-revalidate-secret-at-least-32-chars
           PORT: "3100"
         run: |
-          pnpm --filter back start &
+          pnpm --filter back start > "$RUNNER_TEMP/back.log" 2>&1 &
           for i in $(seq 1 30); do curl -sf -o /dev/null localhost:3100/ && break; sleep 1; done
-          # ADR 0005: noindex on every response, no sitemap, no link previews.
-          curl -sI localhost:3100/ | grep -qi '^x-robots-tag: noindex' || { echo "No X-Robots-Tag on /."; exit 1; }
-          curl -sI localhost:3100/robots.txt | grep -qi '^x-robots-tag: noindex' || { echo "No X-Robots-Tag on robots.txt."; exit 1; }
+          curl -sf -o /dev/null localhost:3100/ || { echo "ski.vin didn't start."; cat "$RUNNER_TEMP/back.log"; exit 1; }
+          asset=$(curl -s localhost:3100/ | grep -oE '/_next/static/[^"]+\.(css|js)' | head -1)
+          # ADR 0005: noindex and no referrer on every response: pages, assets, robots.txt and a 404.
+          for path in / "$asset" /robots.txt /no-such-page; do
+            headers=$(curl -sI "localhost:3100$path")
+            echo "$headers" | grep -qi '^x-robots-tag: noindex' || { echo "No X-Robots-Tag on $path."; exit 1; }
+            echo "$headers" | grep -qi '^referrer-policy: no-referrer' || { echo "No Referrer-Policy on $path."; exit 1; }
+          done
+          # Browser hardening.
+          headers=$(curl -sI localhost:3100/)
+          for header in content-security-policy x-content-type-options x-frame-options cross-origin-opener-policy permissions-policy; do
+            echo "$headers" | grep -qi "^$header:" || { echo "No $header."; exit 1; }
+          done
+          # No sitemap, no link previews.
           test "$(curl -s -o /dev/null -w '%{http_code}' localhost:3100/sitemap.xml)" = 404 || { echo "There's a sitemap."; exit 1; }
           if curl -s localhost:3100/ | grep -q 'og:'; then echo "There are Open Graph tags."; exit 1; fi
           # ADR 0019: the Underground is always dark.

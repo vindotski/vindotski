@@ -4,7 +4,7 @@ number: 2
 status: accepted
 implementation: built
 date: 2026-11-09
-notes: "Workspace built in roadmap stage 1. Strapi runs under pnpm without node-linker=hoisted."
+notes: "Workspace built in roadmap stage 1. Strapi turned out to run under pnpm's isolated node_modules: no node-linker=hoisted needed."
 ---
 
 ## Context

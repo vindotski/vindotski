@@ -17,7 +17,7 @@
 	size="icon-sm"
 	class={className}
 	onclick={() => crossTo(altUrl(), { direction: 'down' })}
-	aria-label="Lights out"
+	aria-label="Lights out (leaves this site)"
 	title="Lights out"
 >
 	<Moon />

@@ -1,5 +1,7 @@
 /*
- * The shared look of vin.ski and ski.vin (ADR 0007).
+ * The shared look of both sites (ADR 0007). No site hostnames in comments
+ * here: this file is bundled into the light site, whose build must never
+ * contain the other site's name.
  *
  * shadcn preset b6RdvRWulu: style "vega", base color neutral, no radius,
  * lucide icons. It decodes to the same config in the shadcn-svelte (1.7.1)
@@ -7,18 +9,18 @@
  * Geist and Geist Mono (ADR 0016).
  *
  * Each app imports Tailwind and its framework's shadcn helpers first, then
- * this file, then overrides only --primary, --primary-foreground and --ring:
+ * this file, then overrides its brand color (--primary, --primary-foreground,
+ * --ring) and the crossover's colors:
  *
  *   @import "tailwindcss";
- *   @import "tw-animate-css";
- *   @import "shadcn-svelte/tailwind.css";   (or "shadcn/tailwind.css")
+ *   @import "shadcn-svelte/tailwind.css";   (or a vendored shadcn.css)
  *   @import "@vindotski/theme/theme.css";
  */
 @import "@fontsource-variable/geist";
 @import "@fontsource-variable/geist-mono";
 
-/* Color modes (ADRs 0016, 0019). A `light` or `dark` class on <html> fixes the
-   mode: vin.ski renders `light`, ski.vin `dark`. With neither, the system's
+/* Color modes (ADR 0019). A `light` or `dark` class on <html> fixes the
+   mode: the light site renders `light`, the dark one `dark`. With neither, the system's
    prefers-color-scheme decides, for template users who want that.
    The `dark:` variant follows the same rule. */
 @custom-variant dark {

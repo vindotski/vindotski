@@ -3,6 +3,7 @@ title: "Dependencies are pinned to exact versions at least two weeks old"
 number: 10
 status: accepted
 date: 2026-11-09
+notes: "pnpm 12 has no save-exact in .npmrc: exact saves come from savePrefix: \"\" in pnpm-workspace.yaml, and minimumReleaseAge enforces the two weeks at install. Dependabot (14-day cooldown) proposes updates."
 ---
 
 ## Context

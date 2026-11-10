@@ -6,7 +6,12 @@
 	const { profile } = $derived(data);
 </script>
 
-<Seo title="About" description={profile.bio ?? profile.headline ?? profile.name} path="/about" />
+<Seo
+	title="About"
+	description={profile.bio ?? profile.headline ?? profile.name}
+	path="/about"
+	image={profile.avatar?.url}
+/>
 
 <main class="mx-auto flex min-h-svh max-w-2xl flex-col justify-center gap-4 p-6">
 	<h1 class="font-heading text-3xl font-medium">About</h1>
