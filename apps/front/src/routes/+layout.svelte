@@ -9,13 +9,18 @@
 
 	let { children }: LayoutProps = $props();
 
+	// Plays the reveal when arriving from the alt site (ADRs 0017, 0019). Keep the closing tag split
+	// and out of the markup: Vite's dependency scan reads any script element it finds in a .svelte
+	// file as code, so a literal one broke the scan, and the late re-bundling then loaded two Svelte
+	// runtimes and threw during hydration.
+	const arriveTag = `<script>${arriveScript}</` + 'script>';
+
 	// A hint for the curious, without giving anything away.
 	onMount(() => console.log('Some names read both ways. Try knocking three times.'));
 </script>
 
 <svelte:head>
-	<!-- Plays the reveal when arriving from the alt site (ADRs 0017, 0019). -->
-	{@html `<script>${arriveScript}</script>`}
+	{@html arriveTag}
 	<link rel="icon" href={favicon} />
 	{#if isPreview}
 		<!-- Error pages and anything without <Seo> are noindex on previews too. -->
